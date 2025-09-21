@@ -1,0 +1,100 @@
+<!-- 侧边栏头部 -->
+<div class="sidebar-header p-3 border-bottom">
+    <div class="sidebar-brand d-flex align-items-center">
+        <span class="sidebar-brand-text">工作工具集</span>
+    </div>
+    <!-- 侧边栏切换按钮 -->
+    <button class="sidebar-toggle" id="sidebarToggle" title="收起/展开侧边栏">
+        <i class="bi bi-chevron-left"></i>
+    </button>
+</div>
+
+<!-- 导航菜单 -->
+<nav class="sidebar-nav flex-grow-1">
+    <ul class="nav nav-pills flex-column p-3">
+        <li class="nav-item mb-2">
+            <a class="nav-link d-flex align-items-center" href="/" id="nav-home">
+                <i class="bi bi-house-door me-2"></i>
+                <span class="nav-link-text">首页</span>
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a class="nav-link d-flex align-items-center" href="/upload" id="nav-upload">
+                <i class="bi bi-cloud-upload me-2"></i>
+                <span class="nav-link-text">上传图片</span>
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a class="nav-link d-flex align-items-center" href="/gallery" id="nav-gallery">
+                <i class="bi bi-images me-2"></i>
+                <span class="nav-link-text">图库管理</span>
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a class="nav-link d-flex align-items-center" href="/process" id="nav-process">
+                <i class="bi bi-magic me-2"></i>
+                <span class="nav-link-text">图片处理</span>
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a class="nav-link d-flex align-items-center" href="/folder" id="nav-folder">
+                <i class="bi bi-folder-fill me-2"></i>
+                <span class="nav-link-text">文件夹管理</span>
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a class="nav-link d-flex align-items-center" href="/api" target="_blank">
+                <i class="bi bi-code-square me-2"></i>
+                <span class="nav-link-text">API文档</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<!-- 侧边栏底部 -->
+<div class="sidebar-footer mt-auto p-3 border-top">
+    <!-- 主题切换按钮 -->
+    <div class="theme-switch d-flex align-items-center justify-content-center">
+        <button class="btn btn-outline-secondary w-100 mb-2" id="themeToggle" title="切换主题">
+            <i class="bi bi-moon-fill me-2"></i>
+            <span class="theme-switch-text">切换主题</span>
+        </button>
+    </div>
+    
+    <!-- 版本信息 -->
+    <div class="text-center">
+        <small class="text-muted">
+            版本 1.0.0<br>
+            © 2024
+        </small>
+    </div>
+</div>
+
+<script>
+// 设置当前页面的导航高亮
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        const href = link.getAttribute('href');
+        
+        if (currentPath === href ||
+            (currentPath.startsWith('/upload') && href === '/upload') ||
+            (currentPath.startsWith('/gallery') && href === '/gallery') ||
+            (currentPath.startsWith('/process') && href === '/process') ||
+            ((currentPath.startsWith('/testtool') && href === '/testtool') ||
+            (currentPath.startsWith('/themetest') && href === '/themetest') ||
+            (currentPath.startsWith('/fileprocessor') && href === '/fileprocessor') ||
+            (currentPath.startsWith('/docprocessor') && href === '/docprocessor') ||
+            (currentPath.startsWith('/enhancedtool') && href === '/enhancedtool') ||
+            (currentPath.startsWith('/demo') && href === '/demo') ||
+            (currentPath.startsWith('/advanced') && href === '/advanced') ||
+            (currentPath.startsWith('/enhancedtheme') && href === '/enhancedtheme') ||
+            currentPath.startsWith('/folder') && href === '/folder')) {
+            link.classList.add('active');
+        }
+    });
+});
+</script>

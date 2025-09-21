@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - <%= appName %></title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link href="/css/custom.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 左侧侧边栏 -->
+        <div class="sidebar bg-light border-end" id="sidebar">
+            <%- include('partials/sidebar') %>
+        </div>
+        
+        <!-- 右侧主内容区 -->
+        <div class="main-content" id="main-content">
+            <main class="p-4">
+                <%- body %>
+            </main>
+        </div>
+    </div>
+
+    <!-- 图片预览模态框 -->
+    <div class="modal fade" id="imagePreviewModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="previewModalTitle">图片预览</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="previewImage" src="" alt="" class="img-fluid mb-3" style="max-height: 500px;">
+                    <div id="previewInfo" class="text-start">
+                        <!-- 图片信息将在这里显示 -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" id="copyUrlBtn">
+                        <i class="bi bi-clipboard me-1"></i>复制链接
+                    </button>
+                    <button type="button" class="btn btn-outline-success" id="openInNewTab">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>新窗口打开
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast 通知 -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastNotification" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="bi bi-info-circle-fill text-primary me-2"></i>
+                <strong class="me-auto">提示</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                <!-- 消息内容 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 侧边栏管理 -->
+    <script src="/js/sidebar.js"></script>
+    <!-- 主题管理 -->
+    <script src="/js/theme.js"></script>
+    <!-- 通用工具 -->
+    <script src="/js/utils.js"></script>
+    <!-- 页面特定脚本 -->
+    <% if (page === 'upload') { %>
+        <script src="/js/upload.js"></script>
+    <% } else if (page === 'gallery') { %>
+        <script src="/js/gallery.js"></script>
+    <% } else if (page === 'process') { %>
+        <script src="/js/process.js"></script>
+    <% } %>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>错误 - 图库上传工具</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link href="/css/custom.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <!-- 左侧侧边栏 -->
+            <div class="col-md-3 col-lg-2 sidebar bg-light border-end" id="sidebar">
+                <%- include('partials/sidebar') %>
+            </div>
+            
+            <!-- 右侧主内容区 -->
+            <div class="col-md-9 col-lg-10 main-content" id="main-content">
+                <main class="p-4">
+                    <div class="container-fluid">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="text-center py-5">
+                                    <i class="bi bi-exclamation-triangle display-1 text-warning mb-4"></i>
+                                    <h1 class="display-4 mb-3">500</h1>
+                                    <h2 class="mb-3">服务器错误</h2>
+                                    <p class="lead text-muted mb-4">抱歉，服务器遇到了一些问题</p>
+                                    
+                                    <div class="d-flex justify-content-center gap-3">
+                                        <a href="/" class="btn btn-primary">
+                                            <i class="bi bi-house me-2"></i>返回首页
+                                        </a>
+                                        <button class="btn btn-outline-secondary" onclick="history.back()">
+                                            <i class="bi bi-arrow-left me-2"></i>返回上页
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 主题管理 -->
+    <script src="/js/theme.js"></script>
+    <!-- 通用工具 -->
+    <script src="/js/utils.js"></script>
+</body>
+</html>

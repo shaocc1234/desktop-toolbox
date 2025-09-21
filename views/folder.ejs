@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件夹管理 - 图库上传工具</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link href="/css/custom.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="app-container">
+    <!-- 左侧侧边栏 -->
+    <div class="sidebar bg-light border-end" id="sidebar">
+        <%- include('partials/sidebar') %>
+    </div>
+
+    <!-- 右侧主内容区 -->
+    <div class="main-content" id="main-content">
+        <main class="p-4">
+        <div class="container-fluid">
+            <!-- 页面标题 -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-0">
+                        <i class="bi bi-folder-fill text-primary me-2"></i>
+                        文件夹管理工具
+                    </h1>
+                    <p class="text-muted mb-0">删除空文件夹、文件分类、重复文件清理</p>
+                </div>
+            </div>
+
+            <!-- 目录选择区域 -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-folder2-open me-2"></i>
+                        选择目录
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-folder"></i>
+                                </span>
+                                <input type="text" class="form-control" id="directoryPath"
+                                       placeholder="请输入要管理的目录路径，如：/Users/username/Documents">
+                                <button class="btn btn-outline-secondary" type="button" id="browseBtn">
+                                    <i class="bi bi-search me-1"></i>浏览
+                                </button>
+                            </div>
+                            <div class="form-text">
+                                请输入要管理的目录的完整路径
+                            </div>
+                            <!-- 扫描选项 -->
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="includeSubfoldersCheck" checked>
+                                        <label class="form-check-label" for="includeSubfoldersCheck">
+                                            <i class="bi bi-folder-plus me-1"></i>扫描所有子文件夹
+                                        </label>
+                                        <div class="form-text small">
+                                            勾选后将递归扫描所有子目录，取消勾选仅扫描当前目录
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="useOptimizedCheck" checked>
+                                        <label class="form-check-label" for="useOptimizedCheck">
+                                            <i class="bi bi-lightning me-1"></i>使用优化扫描
+                                        </label>
+                                        <div class="form-text small">
+                                            使用优化算法提升扫描速度，支持缓存和并行处理
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary w-100" id="scanBtn">
+                                <i class="bi bi-search me-1"></i>扫描目录
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 目录统计信息 -->
+            <div class="card mb-4" id="statsCard" style="display: none;">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-bar-chart me-2"></i>
+                        目录统计
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="statsContent">
+                        <!-- 统计信息将在这里动态加载 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 功能操作区域 -->
+            <div class="row" id="operationsArea" style="display: none;">
+                <!-- 删除空文件夹 -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-trash me-2"></i>
+                                删除空文件夹
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                扫描并删除指定目录下的所有空文件夹，支持递归删除。
+                            </p>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-warning" id="previewEmptyBtn">
+                                    <i class="bi bi-eye me-1"></i>预览空文件夹
+                                </button>
+                                <button class="btn btn-danger" id="deleteEmptyBtn">
+                                    <i class="bi bi-trash me-1"></i>删除空文件夹
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 文件分类 -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-collection me-2"></i>
+                                按扩展名分类
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                将文件按扩展名自动分类到不同的子文件夹中。
+                            </p>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="createSubfoldersCheck" checked>
+                                <label class="form-check-label" for="createSubfoldersCheck">
+                                    创建子文件夹
+                                </label>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-info" id="previewClassifyBtn">
+                                    <i class="bi bi-eye me-1"></i>预览分类结果
+                                </button>
+                                <button class="btn btn-info" id="classifyBtn">
+                                    <i class="bi bi-collection me-1"></i>开始分类
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 重复文件清理 -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-files me-2"></i>
+                                重复文件清理
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                基于文件内容检测并删除重复文件，保留最早的文件。
+                            </p>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-secondary" id="previewDuplicatesBtn">
+                                    <i class="bi bi-eye me-1"></i>查找重复文件
+                                </button>
+                                <button class="btn btn-secondary" id="removeDuplicatesBtn">
+                                    <i class="bi bi-files me-1"></i>删除重复文件
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 目录详细统计 -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-graph-up me-2"></i>
+                                详细统计
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                获取目录的详细统计信息，包括文件分类和大小分析。
+                            </p>
+                            <div class="d-grid">
+                                <button class="btn btn-success" id="detailStatsBtn">
+                                    <i class="bi bi-graph-up me-1"></i>获取详细统计
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 结果显示区域 -->
+            <div class="card" id="resultCard" style="display: none;">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-list-check me-2"></i>
+                        操作结果
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="resultContent">
+                        <!-- 结果内容将在这里动态加载 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+            </main>
+        </div>
+    </div>
+
+<!-- 确认对话框模态框 -->
+<div class="modal fade" id="confirmModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">确认操作</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="confirmModalBody">
+                <!-- 确认内容 -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-danger" id="confirmActionBtn">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 加载提示 -->
+<div class="position-fixed top-50 start-50 translate-middle" id="loadingSpinner" style="display: none; z-index: 9999;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">加载中...</span>
+    </div>
+</div>
+
+<!-- 进度条 -->
+<div class="position-fixed top-0 start-0 w-100" id="progressContainer" style="display: none; z-index: 9998;">
+    <div class="bg-white border-bottom shadow-sm p-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="text-muted fw-bold">
+                    <i class="bi bi-folder-check me-2"></i>扫描进度
+                </span>
+                <span id="progressText" class="badge bg-primary fs-6">0%</span>
+            </div>
+            <div class="progress mb-2" style="height: 12px;">
+                <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                     role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+            <div id="progressMessage" class="text-muted small">
+                <i class="bi bi-clock me-1"></i>准备开始扫描...
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 侧边栏管理 -->
+<script src="/js/sidebar.js"></script>
+<!-- 主题管理 -->
+<script src="/js/theme.js"></script>
+<!-- 通用工具 -->
+<script src="/js/utils.js"></script>
+<!-- 文件夹管理页面脚本 -->
+<script src="/js/folder.js"></script>
+</body>
+</html>
