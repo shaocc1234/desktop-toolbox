@@ -1,6 +1,6 @@
 {
   "name": "desktop-toolbox",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "🛠️ 现代化桌面工具集 - 集成图片上传、图库管理、图片处理、文件夹管理等实用工具，内置脚本快速扩展新功能模块",
   "main": "electron-main.js",
   "homepage": "https://github.com/shaocc1234/desktop-toolbox#readme",
@@ -82,17 +82,15 @@
       "**/*",
       "!test/**/*",
       "!dist/**/*",
-      "!node_modules/**/*",
-      "node_modules/express/**/*",
-      "node_modules/ejs/**/*",
+      "!docs/**/*",
+      "!*.md",
+      "!.git*",
+      "!create-tool.sh",
+      "!start.sh"
+    ],
+    "asarUnpack": [
       "node_modules/sqlite3/**/*",
-      "node_modules/multer/**/*",
-      "node_modules/sharp/**/*",
-      "node_modules/axios/**/*",
-      "node_modules/cors/**/*",
-      "node_modules/helmet/**/*",
-      "node_modules/express-rate-limit/**/*",
-      "node_modules/form-data/**/*"
+      "node_modules/sharp/**/*"
     ],
     "mac": {
       "category": "public.app-category.photography",
