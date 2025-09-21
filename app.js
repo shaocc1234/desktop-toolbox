@@ -110,33 +110,42 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 启动服务器
-const server = app.listen(PORT, () => {
-  console.log(`🚀 工具集启动成功`);
-  console.log(`📍 访问地址: http://localhost:${PORT}`);
-  console.log(`🗃️ 数据库: ${dbService.dbPath}`);
-  console.log(`🌍 环境: ${process.env.NODE_ENV || 'development'}`);
-});
-
-// 优雅关闭
-process.on('SIGTERM', () => {
-  console.log('收到 SIGTERM 信号，正在关闭服务器...');
-  server.close(() => {
-    console.log('HTTP 服务器已关闭');
-    dbService.close();
-    console.log('数据库连接已关闭');
-    process.exit(0);
+// 启动服务器函数
+function startServer() {
+  const server = app.listen(PORT, () => {
+    console.log(`🚀 工具集启动成功`);
+    console.log(`📍 访问地址: http://localhost:${PORT}`);
+    console.log(`🗃️ 数据库: ${dbService.dbPath}`);
+    console.log(`🌍 环境: ${process.env.NODE_ENV || 'development'}`);
   });
-});
 
-process.on('SIGINT', () => {
-  console.log('收到 SIGINT 信号，正在关闭服务器...');
-  server.close(() => {
-    console.log('HTTP 服务器已关闭');
-    dbService.close();
-    console.log('数据库连接已关闭');
-    process.exit(0);
+  // 优雅关闭
+  process.on('SIGTERM', () => {
+    console.log('收到 SIGTERM 信号，正在关闭服务器...');
+    server.close(() => {
+      console.log('HTTP 服务器已关闭');
+      dbService.close();
+      console.log('数据库连接已关闭');
+      process.exit(0);
+    });
   });
-});
 
-module.exports = app;
+  process.on('SIGINT', () => {
+    console.log('收到 SIGINT 信号，正在关闭服务器...');
+    server.close(() => {
+      console.log('HTTP 服务器已关闭');
+      dbService.close();
+      console.log('数据库连接已关闭');
+      process.exit(0);
+    });
+  });
+
+  return server;
+}
+
+// 如果不是被require调用，则直接启动服务器
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = { app, startServer };

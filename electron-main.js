@@ -1,6 +1,7 @@
 // Electron主进程
 const { app, BrowserWindow, Menu, shell, dialog, ipcMain } = require('electron');
 const path = require('path');
+const fs = require('fs');
 const FileOperationService = require('./services/fileOperationService');
 const { spawn } = require('child_process');
 const axios = require('axios');
@@ -37,11 +38,39 @@ class ElectronApp {
   async startExpressServer() {
     return new Promise((resolve, reject) => {
       console.log('🚀 启动Express服务器...');
-      
-      // 启动现有的app.js服务器
-      this.serverProcess = spawn('node', ['app.js'], {
-        cwd: __dirname,
-        stdio: ['pipe', 'pipe', 'pipe']
+
+      // 确定Node.js可执行文件路径和工作目录
+      let nodePath = 'node';
+      let workingDir = __dirname;
+      let appPath = 'app.js';
+
+      // 在打包环境中使用解包的app.js
+      if (process.resourcesPath) {
+        // 打包环境：使用系统Node.js，但指向解包的app.js
+        workingDir = path.join(process.resourcesPath, 'app.asar.unpacked');
+        appPath = 'app.js'; // 相对于workingDir
+
+        console.log('📍 打包环境路径:');
+        console.log('  Node路径:', nodePath);
+        console.log('  工作目录:', workingDir);
+        console.log('  App路径:', path.join(workingDir, appPath));
+
+        // 检查文件是否存在
+        if (!fs.existsSync(path.join(workingDir, appPath))) {
+          console.error('❌ 解包的app.js文件不存在:', path.join(workingDir, appPath));
+          reject(new Error('解包的app.js文件不存在'));
+          return;
+        }
+      }
+
+      // 启动Express服务器进程
+      this.serverProcess = spawn(nodePath, [appPath], {
+        cwd: workingDir,
+        stdio: ['pipe', 'pipe', 'pipe'],
+        env: {
+          ...process.env,
+          NODE_ENV: process.env.NODE_ENV || 'production'
+        }
       });
 
       this.serverProcess.stdout.on('data', (data) => {
