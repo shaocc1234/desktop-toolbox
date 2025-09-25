@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全局设置 - 工作工具集</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/settings.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 左侧侧边栏 -->
+        <div class="sidebar bg-light border-end" id="sidebar">
+            <%- include('partials/sidebar') %>
+        </div>
+
+        <!-- 右侧主内容区 -->
+        <div class="main-content" id="main-content">
+            <main class="p-4">
+                <!-- 顶部导航栏 -->
+                <nav class="navbar navbar-expand-lg border-bottom mb-4" style="background-color: var(--bg-primary); margin: -1rem -1rem 1rem -1rem; padding: 1rem;">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-outline-secondary me-3 d-md-none" id="mobileSidebarToggle">
+                            <i class="bi bi-list"></i>
+                        </button>
+                        <h1 class="h4 mb-0">
+                            <i class="bi bi-gear-fill me-2 text-primary"></i>
+                            全局设置
+                        </h1>
+                    </div>
+                    
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-secondary">
+                            <i class="bi bi-shield-check me-1"></i>
+                            本地存储
+                        </span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 页面内容 -->
+            <div class="container-fluid">
+                <!-- 页面说明 -->
+                <div class="alert alert-info" role="alert">
+                    <div class="d-flex">
+                        <i class="bi bi-info-circle-fill me-3 mt-1"></i>
+                        <div>
+                            <h6 class="alert-heading mb-1">设置说明</h6>
+                            <p class="mb-0">
+                                所有设置数据仅保存在本地浏览器中，不会上传到服务器。
+                                配置完成后将自动应用到所有AI功能模块。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- 大模型设置卡片 -->
+                    <div class="col-12 col-xl-8">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">
+                                    <i class="bi bi-robot me-2"></i>
+                                    大模型API配置
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="aiConfigForm">
+                                    <!-- 硅基流动配置 -->
+                                    <div class="mb-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="bi bi-cpu-fill text-primary me-2 fs-5"></i>
+                                            <h6 class="mb-0">硅基流动 (SiliconFlow)</h6>
+                                            <span class="badge bg-success ms-2">推荐</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <label for="siliconflowKey" class="form-label">API Key</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="bi bi-key"></i>
+                                                    </span>
+                                                    <input type="password" class="form-control" id="siliconflowKey" 
+                                                           placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxx">
+                                                    <button class="btn btn-outline-secondary toggle-password" type="button"
+                                                            data-target="siliconflowKey">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="form-text">
+                                                    支持DeepSeek、Qwen等多种模型，性价比高
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">状态</label>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-secondary" id="siliconflowStatus">未配置</span>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary ms-2 test-api-key"
+                                                            data-provider="siliconflow">
+                                                        <i class="bi bi-check-circle"></i> 测试
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 豆包配置 -->
+                                    <div class="mb-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="bi bi-lightning-fill text-warning me-2 fs-5"></i>
+                                            <h6 class="mb-0">豆包 (Doubao)</h6>
+                                            <span class="badge bg-info ms-2">视觉优秀</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <label for="doubaoKey" class="form-label">API Key</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="bi bi-key"></i>
+                                                    </span>
+                                                    <input type="password" class="form-control" id="doubaoKey" 
+                                                           placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+                                                    <button class="btn btn-outline-secondary toggle-password" type="button"
+                                                            data-target="doubaoKey">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="form-text">
+                                                    字节跳动出品，视觉模型响应速度极快
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">状态</label>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-secondary" id="doubaoStatus">未配置</span>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary ms-2 test-api-key"
+                                                            data-provider="doubao">
+                                                        <i class="bi bi-check-circle"></i> 测试
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- DeepSeek配置 -->
+                                    <div class="mb-4">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="bi bi-brain text-success me-2 fs-5"></i>
+                                            <h6 class="mb-0">DeepSeek</h6>
+                                            <span class="badge bg-success ms-2">性价比高</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <label for="deepseekKey" class="form-label">API Key</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">
+                                                        <i class="bi bi-key"></i>
+                                                    </span>
+                                                    <input type="password" class="form-control" id="deepseekKey" 
+                                                           placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxx">
+                                                    <button class="btn btn-outline-secondary toggle-password" type="button"
+                                                            data-target="deepseekKey">
+                                                        <i class="bi bi-eye"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="form-text">
+                                                    官方API，推理能力强，价格实惠
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label">状态</label>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge bg-secondary" id="deepseekStatus">未配置</span>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary ms-2 test-api-key"
+                                                            data-provider="deepseek">
+                                                        <i class="bi bi-check-circle"></i> 测试
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 操作按钮 -->
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <button type="button" class="btn btn-outline-danger" id="clearAllConfigBtn">
+                                                <i class="bi bi-trash"></i> 清空配置
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-secondary me-2" id="loadDefaultConfigBtn">
+                                                <i class="bi bi-arrow-clockwise"></i> 恢复默认
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="bi bi-check-lg"></i> 保存配置
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 其他设置预留区域 -->
+                    <div class="col-12 col-xl-4">
+                        <!-- 系统信息卡片 -->
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header">
+                                <h6 class="card-title mb-0">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    系统信息
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <small class="text-muted">版本</small>
+                                        <div class="fw-bold">1.0.0</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted">环境</small>
+                                        <div class="fw-bold">本地</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted">存储</small>
+                                        <div class="fw-bold">浏览器</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted">状态</small>
+                                        <div class="fw-bold text-success">正常</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 预留设置卡片 -->
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-header">
+                                <h6 class="card-title mb-0">
+                                    <i class="bi bi-sliders me-2"></i>
+                                    其他设置
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center text-muted py-3">
+                                    <i class="bi bi-plus-circle fs-1 mb-2"></i>
+                                    <p class="mb-0">更多设置功能</p>
+                                    <small>即将推出</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 帮助卡片 -->
+                        <div class="card shadow-sm">
+                            <div class="card-header">
+                                <h6 class="card-title mb-0">
+                                    <i class="bi bi-question-circle me-2"></i>
+                                    帮助信息
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="accordion accordion-flush" id="helpAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" 
+                                                    data-bs-toggle="collapse" data-bs-target="#help1">
+                                                如何获取API Key？
+                                            </button>
+                                        </h2>
+                                        <div id="help1" class="accordion-collapse collapse" 
+                                             data-bs-parent="#helpAccordion">
+                                            <div class="accordion-body">
+                                                <small>
+                                                    <strong>硅基流动：</strong>访问 siliconflow.cn 注册账号<br>
+                                                    <strong>豆包：</strong>访问火山引擎控制台<br>
+                                                    <strong>DeepSeek：</strong>访问 deepseek.com 注册
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- 侧边栏管理 -->
+    <script src="/js/sidebar.js"></script>
+    <!-- 主题管理 -->
+    <script src="/js/theme.js"></script>
+    <!-- 设置页面脚本 -->
+    <script src="/js/settings.js"></script>
+
+    <!-- 移动端侧边栏切换 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileSidebarToggle = document.getElementById('mobileSidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+
+            if (mobileSidebarToggle && sidebar) {
+                mobileSidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('show');
+                });
+
+                // 点击主内容区域时关闭侧边栏
+                document.getElementById('main-content').addEventListener('click', function() {
+                    if (window.innerWidth <= 767) {
+                        sidebar.classList.remove('show');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

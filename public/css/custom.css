@@ -1,0 +1,2320 @@
+/* VS Code 风格主题变量 */
+:root {
+  /* 浅色主题 - VS Code Light */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f3f3;
+  --bg-tertiary: #e8e8e8;
+  --bg-hover: #f0f0f0;
+  --text-primary: #333333;
+  --text-secondary: #616161;
+  --text-muted: #8c8c8c;
+  --border-color: #e5e5e5;
+  --accent-color: #007acc;
+  --accent-hover: #005a9e;
+  --accent-color-rgb: 0, 122, 204;
+  --shadow: rgba(0, 0, 0, 0.04);
+  --shadow-hover: rgba(0, 0, 0, 0.08);
+
+  /* 状态颜色 - 简化版 */
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --info-color: #17a2b8;
+}
+
+[data-bs-theme="dark"] {
+  /* 深色主题 - VS Code Dark */
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #252526;
+  --bg-tertiary: #2d2d30;
+  --bg-hover: #2a2d2e;
+  --text-primary: #cccccc;
+  --text-secondary: #9d9d9d;
+  --text-muted: #6a6a6a;
+  --border-color: #3e3e42;
+  --accent-color: #0e639c;
+  --accent-hover: #1177bb;
+  --accent-color-rgb: 14, 99, 156;
+  --shadow: rgba(0, 0, 0, 0.2);
+  --shadow-hover: rgba(0, 0, 0, 0.3);
+
+  /* 状态颜色 - 深色主题适配 */
+  --success-color: #4ec9b0;
+  --warning-color: #ffcc02;
+  --danger-color: #f48771;
+  --info-color: #9cdcfe;
+}
+
+/* 基础样式 - VS Code 风格 */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* 应用容器 - VS Code 布局 */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* 侧边栏样式 - VS Code 风格 */
+.sidebar {
+  background-color: var(--bg-secondary) !important;
+  border-right: 1px solid var(--border-color) !important;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: width 0.2s ease;
+  width: 240px;
+  min-width: 240px;
+  position: relative;
+}
+
+/* 侧边栏收起状态 - VS Code 风格 */
+.sidebar.collapsed,
+html.sidebar-collapsed .sidebar {
+  width: 48px !important;
+  min-width: 48px !important;
+  transition: width 0.2s ease;
+}
+
+.sidebar.collapsed .nav-link-text,
+.sidebar.collapsed .sidebar-brand-text,
+.sidebar.collapsed .theme-switch-text,
+html.sidebar-collapsed .sidebar .nav-link-text,
+html.sidebar-collapsed .sidebar .sidebar-brand-text,
+html.sidebar-collapsed .sidebar .theme-switch-text {
+  display: none;
+}
+
+.sidebar.collapsed .nav-link,
+html.sidebar-collapsed .sidebar .nav-link {
+  justify-content: center;
+  padding: 8px;
+}
+
+.sidebar.collapsed .sidebar-brand,
+html.sidebar-collapsed .sidebar .sidebar-brand {
+  justify-content: center;
+}
+
+.sidebar.collapsed .theme-switch,
+html.sidebar-collapsed .sidebar .theme-switch {
+  justify-content: center;
+}
+
+.sidebar.collapsed .theme-switch .btn,
+html.sidebar-collapsed .sidebar .theme-switch .btn {
+  border: none !important;
+  background: transparent !important;
+  padding: 8px !important;
+  width: auto !important;
+}
+
+/* 侧边栏切换按钮 - VS Code 风格 */
+.sidebar-toggle {
+  position: absolute;
+  top: 42px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  background: var(--accent-color);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.2s ease;
+  font-size: 12px;
+}
+
+.sidebar-toggle:hover {
+  background: var(--accent-hover);
+}
+
+.sidebar.collapsed .sidebar-toggle,
+html.sidebar-collapsed .sidebar .sidebar-toggle {
+  right: -12px;
+}
+
+.sidebar-toggle i {
+  transition: transform 0.2s ease;
+}
+
+.sidebar-header {
+  border-bottom: 1px solid var(--border-color) !important;
+  padding: 12px 16px !important;
+  background-color: var(--bg-secondary);
+  /* 为桌面应用添加上边距，避免被macOS窗口控制按钮挡住 */
+  margin-top: 30px;
+}
+
+.sidebar-nav {
+  flex-grow: 1;
+  padding: 8px 0;
+}
+
+.sidebar-footer {
+  border-top: 1px solid var(--border-color) !important;
+  padding: 8px 16px;
+  background-color: var(--bg-secondary);
+}
+
+/* 设置按钮样式 */
+.settings-button .btn {
+  font-size: 13px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.settings-button .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.sidebar.collapsed .settings-button-text,
+html.sidebar-collapsed .sidebar .settings-button-text {
+  display: none;
+}
+
+.sidebar.collapsed .settings-button .btn,
+html.sidebar-collapsed .sidebar .settings-button .btn {
+  border: none !important;
+  background: transparent !important;
+  color: var(--text-secondary) !important;
+  padding: 8px !important;
+  width: auto !important;
+}
+
+.sidebar.collapsed .settings-button .btn:hover,
+html.sidebar-collapsed .sidebar .settings-button .btn:hover {
+  background: var(--bg-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+.sidebar .nav-link {
+  color: var(--text-secondary);
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  padding: 6px 12px;
+  margin: 1px 8px;
+  font-size: 13px;
+}
+
+.sidebar .nav-link:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.sidebar .nav-link.active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+/* 主内容区样式 - VS Code 风格 */
+.main-content {
+  background-color: var(--bg-primary);
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 卡片样式 - VS Code 风格 */
+.card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.card-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 16px;
+}
+
+/* 上传区域样式 - VS Code 风格 */
+.upload-area {
+  border: 2px dashed var(--border-color);
+  background-color: var(--bg-secondary);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-area:hover {
+  border-color: var(--accent-color);
+  background-color: var(--bg-hover);
+}
+
+.upload-area.drag-over {
+  border-color: var(--accent-color);
+  background-color: var(--bg-hover);
+}
+
+.upload-content {
+  pointer-events: none;
+}
+
+.upload-content .btn {
+  pointer-events: auto;
+}
+
+/* 图片卡片样式 */
+.image-card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.image-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.5rem 1rem var(--shadow-hover);
+}
+
+.image-thumbnail {
+  transition: all 0.3s ease;
+  border-radius: 8px 8px 0 0;
+}
+
+.image-thumbnail:hover {
+  transform: scale(1.05);
+}
+
+/* 按钮样式 - VS Code 风格 */
+.btn {
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+  font-weight: 400;
+  padding: 6px 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn-secondary {
+  background-color: var(--bg-tertiary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-hover);
+}
+
+.btn-sm {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.btn-lg {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+/* 表单控件样式 - VS Code 风格 */
+.form-control, .form-select {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 3px;
+  transition: border-color 0.2s ease;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: var(--bg-primary);
+  border-color: var(--accent-color);
+  color: var(--text-primary);
+  box-shadow: 0 0 0 1px var(--accent-color);
+}
+
+/* 进度条样式 - VS Code 风格 */
+.progress {
+  background-color: var(--bg-tertiary);
+  border-radius: 2px;
+  overflow: hidden;
+  height: 4px;
+}
+
+.progress-bar {
+  border-radius: 2px;
+  background-color: var(--accent-color);
+}
+
+/* 徽章样式 - VS Code 风格 */
+.badge {
+  border-radius: 3px;
+  font-weight: 400;
+  font-size: 11px;
+  padding: 2px 6px;
+}
+
+/* 模态框样式 - VS Code 风格 */
+.modal-content {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-shadow: var(--shadow-hover);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 16px;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border-color);
+  padding: 12px 16px;
+}
+
+.modal-body {
+  padding: 16px;
+}
+
+/* Toast 通知样式 - VS Code 风格 */
+.toast {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.toast-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 8px 12px;
+}
+
+/* 统计项样式 */
+.stat-item {
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  background-color: var(--bg-tertiary);
+  transform: translateY(-2px);
+}
+
+/* 选择框样式 */
+.form-check-input {
+  border-radius: 4px;
+  border-color: var(--border-color);
+}
+
+.form-check-input:checked {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+/* 文件列表样式 */
+.file-item {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.file-item:hover {
+  background-color: var(--bg-tertiary);
+  transform: translateY(-2px);
+}
+
+.file-preview {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid var(--border-color);
+}
+
+/* 响应式设计 - 针对桌面应用窗口尺寸优化 */
+
+/* 桌面应用 - 自动侧边栏收起逻辑 */
+.desktop-app .sidebar.auto-collapsed {
+  width: 60px;
+  min-width: 60px;
+}
+
+/* 超宽屏幕 (1800px+) - 充分利用横向空间 */
+@media (min-width: 1800px) {
+  .sidebar {
+    width: 300px !important;
+    min-width: 300px !important;
+  }
+  
+  .main-content main {
+    padding: 2rem 3rem;
+  }
+  
+  /* 图片网格 - 5列布局 */
+  .image-grid .col-md-6.col-lg-4 {
+    flex: 0 0 auto;
+    width: 20%;
+  }
+  
+  /* 文件列表 - 3列布局 */
+  .file-list .col-md-6.col-lg-4 {
+    width: 33.333333%;
+  }
+}
+
+/* 大屏幕 (1400px-1799px) - 标准宽屏 */
+@media (min-width: 1400px) and (max-width: 1799px) {
+  .sidebar {
+    width: 280px !important;
+    min-width: 280px !important;
+  }
+  
+  .main-content main {
+    padding: 1.5rem 2rem;
+  }
+  
+  /* 图片网格 - 4列布局 */
+  .image-grid .col-md-6.col-lg-4 {
+    width: 25%;
+  }
+  
+  /* 文件列表 - 2列布局 */
+  .file-list .col-md-6 {
+    width: 50%;
+  }
+}
+
+/* 宽屏幕 (1600px-2399px) - 标准宽屏优化 */
+@media (min-width: 1600px) and (max-width: 2399px) {
+  .container-fluid {
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+  
+  .sidebar {
+    width: 280px;
+    min-width: 280px;
+  }
+  
+  .main-content {
+    padding: 1.5rem 2rem;
+  }
+  
+  /* 图片网格 - 4列布局 */
+  .image-grid .col-md-6.col-lg-4 {
+    width: 25%;
+  }
+  
+  /* 文件列表 - 2列布局 */
+  .file-list .col-md-6 {
+    width: 50%;
+  }
+}
+
+/* 中等屏幕 (1200px-1399px) - 标准桌面 */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .sidebar {
+    width: 260px;
+    min-width: 260px;
+  }
+  
+  .main-content {
+    padding: 1.5rem;
+  }
+  
+  /* 图片网格 - 3列布局 */
+  .image-grid .col-lg-4 {
+    width: 33.333333%;
+  }
+}
+
+/* 桌面应用小窗口 (1000px-1199px) - 自动收起侧边栏 */
+@media (min-width: 1000px) and (max-width: 1199px) {
+  .desktop-app .sidebar {
+    width: 48px;
+    min-width: 48px;
+  }
+
+  .desktop-app .sidebar .nav-link-text,
+  .desktop-app .sidebar .sidebar-brand-text,
+  .desktop-app .sidebar .theme-switch-text {
+    display: none;
+  }
+
+  .desktop-app .sidebar .nav-link {
+    justify-content: center;
+    padding: 8px;
+  }
+
+  .desktop-app .sidebar .sidebar-brand {
+    justify-content: center;
+  }
+
+  .main-content main {
+    padding: 12px;
+  }
+
+  /* 强制左右分栏布局 - 避免配置栏占满屏幕 */
+  .main-content .row .col-lg-4 {
+    flex: 0 0 33.33% !important;
+    max-width: 33.33% !important;
+    width: 33.33% !important;
+  }
+
+  .main-content .row .col-lg-8 {
+    flex: 0 0 66.67% !important;
+    max-width: 66.67% !important;
+    width: 66.67% !important;
+  }
+
+  /* 图片网格 - 3列布局 */
+  .image-grid .col-lg-4 {
+    width: 33.333333%;
+  }
+
+  /* 文件列表 - 1列布局 */
+  .file-list .col-md-6 {
+    width: 100%;
+  }
+}
+
+/* 桌面应用超小窗口 (800px-999px) - 强制收起侧边栏 */
+@media (min-width: 800px) and (max-width: 999px) {
+  .desktop-app .sidebar {
+    width: 60px !important;
+    min-width: 60px !important;
+  }
+
+  .desktop-app .sidebar .nav-link-text,
+  .desktop-app .sidebar .sidebar-brand-text,
+  .desktop-app .sidebar .theme-switch-text {
+    display: none !important;
+  }
+
+  .desktop-app .sidebar .nav-link {
+    justify-content: center;
+    padding: 0.5rem;
+  }
+
+  .desktop-app .sidebar .sidebar-brand {
+    justify-content: center;
+    padding: 0.5rem;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+
+  /* 强制左右分栏布局 - 避免配置栏占满屏幕 */
+  .main-content .row .col-lg-4 {
+    flex: 0 0 33.33% !important;
+    max-width: 33.33% !important;
+    width: 33.33% !important;
+  }
+
+  .main-content .row .col-lg-8 {
+    flex: 0 0 66.67% !important;
+    max-width: 66.67% !important;
+    width: 66.67% !important;
+  }
+
+  /* 图片网格 - 2列布局 */
+  .image-grid .col-md-6 {
+    width: 50%;
+  }
+
+  /* 文件列表 - 1列布局 */
+  .file-list .col-md-6 {
+    width: 100%;
+  }
+
+  .upload-area {
+    min-height: 200px;
+  }
+
+  /* 紧凑的卡片间距 */
+  .card {
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* 桌面应用极小窗口 (600px-799px) - 最小化布局 */
+@media (min-width: 600px) and (max-width: 799px) {
+  .desktop-app .sidebar {
+    width: 50px !important;
+    min-width: 50px !important;
+  }
+  
+  .desktop-app .sidebar .nav-link-text,
+  .desktop-app .sidebar .sidebar-brand-text,
+  .desktop-app .sidebar .theme-switch-text {
+    display: none !important;
+  }
+  
+  .desktop-app .sidebar .nav-link {
+    justify-content: center;
+    padding: 0.4rem;
+    font-size: 0.875rem;
+  }
+  
+  .desktop-app .sidebar .sidebar-brand {
+    justify-content: center;
+    padding: 0.4rem;
+  }
+  
+  .main-content {
+    padding: 0.75rem;
+  }
+
+  /* 强制左右分栏布局 - 避免配置栏占满屏幕 */
+  .main-content .row .col-lg-4 {
+    flex: 0 0 33.33% !important;
+    max-width: 33.33% !important;
+    width: 33.33% !important;
+  }
+
+  .main-content .row .col-lg-8 {
+    flex: 0 0 66.67% !important;
+    max-width: 66.67% !important;
+    width: 66.67% !important;
+  }
+
+  /* 图片网格 - 1列布局 */
+  .image-grid .col-12 {
+    width: 100%;
+  }
+
+  /* 文件列表 - 1列布局 */
+  .file-list .col-12 {
+    width: 100%;
+  }
+  
+  .upload-area {
+    min-height: 150px;
+  }
+  
+  /* 更紧凑的卡片 */
+  .card {
+    margin-bottom: 0.5rem;
+  }
+  
+  .btn-lg {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* 平板屏幕 (768px-991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+
+  /* 强制左右分栏布局 - 避免配置栏占满屏幕 */
+  .main-content .row .col-lg-4 {
+    flex: 0 0 33.33% !important;
+    max-width: 33.33% !important;
+    width: 33.33% !important;
+  }
+
+  .main-content .row .col-lg-8 {
+    flex: 0 0 66.67% !important;
+    max-width: 66.67% !important;
+    width: 66.67% !important;
+  }
+
+  /* 图片网格 - 2列布局 */
+  .image-grid .col-md-6 {
+    width: 50%;
+  }
+
+  /* 文件列表 - 1列布局 */
+  .file-list .col-md-6 {
+    width: 100%;
+  }
+
+  .upload-area {
+    min-height: 250px;
+  }
+}
+
+/* 手机屏幕 (最大767px) */
+@media (max-width: 767px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 280px;
+    z-index: 1050;
+    transition: left 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .sidebar.show {
+    left: 0;
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 1rem 0.75rem;
+  }
+  
+  /* 添加汉堡菜单按钮 */
+  .mobile-menu-btn {
+    display: block;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1051;
+    background: var(--bs-primary);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem;
+    color: white;
+  }
+  
+  /* 图片网格 - 1列布局 */
+  .image-grid .col-12 {
+    width: 100%;
+  }
+  
+  /* 文件列表 - 1列布局 */
+  .file-list .col-12 {
+    width: 100%;
+  }
+  
+  .upload-area {
+    min-height: 200px;
+  }
+  
+  .image-card {
+    margin-bottom: 1rem;
+  }
+  
+  /* 紧凑的按钮组 */
+  .btn-group-vertical .btn {
+    margin-bottom: 0.25rem;
+  }
+}
+
+/* 超小屏幕 (最大575px) */
+@media (max-width: 575px) {
+  .main-content {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .card {
+    margin-bottom: 0.75rem;
+  }
+  
+  .btn-lg {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+  
+  .upload-area {
+    min-height: 180px;
+  }
+  
+  /* 更紧凑的表单 */
+  .form-control, .form-select {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* 加载状态 */
+.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* 滚动条样式 - VS Code 风格 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 5px;
+  border: 2px solid var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--bg-primary);
+}
+
+/* 工具提示样式 */
+.tooltip {
+  font-size: 0.875rem;
+}
+
+.tooltip-inner {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+
+/* 特殊状态样式 */
+.success-state {
+  border-color: var(--bs-success) !important;
+  background-color: rgba(25, 135, 84, 0.1);
+}
+
+.error-state {
+  border-color: var(--bs-danger) !important;
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.warning-state {
+  border-color: var(--bs-warning) !important;
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+/* 图片网格优化 - 紧凑布局 */
+.image-grid-item {
+  break-inside: avoid;
+  margin-bottom: 0.75rem;
+}
+
+/* 图库页面紧凑样式 */
+.gallery-page {
+  font-size: 0.875rem;
+}
+
+.gallery-page .card {
+  margin-bottom: 0.75rem;
+}
+
+.gallery-page .card-body {
+  padding: 0.75rem;
+}
+
+.gallery-page .card-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.gallery-page .card-text {
+  font-size: 0.8125rem;
+  margin-bottom: 0.5rem;
+}
+
+/* 图片卡片紧凑样式 */
+.image-card {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.image-card .card-body {
+  padding: 0.5rem;
+}
+
+.image-card .card-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.image-card .card-text {
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.image-card .badge {
+  font-size: 0.6875rem;
+  padding: 0.125rem 0.375rem;
+}
+
+/* 图片操作按钮紧凑样式 */
+.image-actions {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.image-actions .btn {
+  padding: 0.125rem 0.375rem;
+  font-size: 0.6875rem;
+  border-radius: 3px;
+}
+
+/* 搜索和筛选区域紧凑样式 */
+.gallery-controls {
+  margin-bottom: 1rem;
+}
+
+.gallery-controls .form-control,
+.gallery-controls .form-select {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 6px;
+}
+
+.gallery-controls .btn {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* 筛选按钮组紧凑样式 */
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.filter-buttons .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* 图片信息文字紧凑 */
+.image-info {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+.image-size {
+  font-size: 0.6875rem;
+  color: var(--text-secondary);
+}
+
+.image-date {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+}
+
+/* 搜索高亮 */
+.highlight {
+  background-color: rgba(255, 193, 7, 0.3);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+/* 空状态样式 */
+.empty-state {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.empty-state i {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* 历史目录功能样式 */
+.history-directory-section {
+  margin-bottom: 1rem;
+}
+
+.history-directory-section .form-text {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+#historyDirectorySelect {
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+#historyDirectorySelect:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+#historyDirectorySelect option {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+#clearHistoryBtn {
+  border-color: var(--border-color);
+  color: #dc3545;
+}
+
+#clearHistoryBtn:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+/* 响应式设计 - 历史目录 */
+@media (max-width: 768px) {
+  .history-directory-section .input-group {
+    flex-wrap: wrap;
+  }
+
+  .history-directory-section .input-group .form-select {
+    flex: 1 1 70%;
+    min-width: 0;
+  }
+
+  .history-directory-section .input-group #clearHistoryBtn {
+    flex: 0 0 auto;
+  }
+}
+
+/* 历史目录输入框样式 */
+.directory-input-container {
+  position: relative;
+}
+
+#historyDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  margin-top: 2px;
+  transition: all 0.3s ease;
+}
+
+/* 浅色主题下的阴影 */
+[data-bs-theme="light"] #historyDropdown {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* 深色主题下的阴影 */
+[data-bs-theme="dark"] #historyDropdown {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
+}
+
+#historyDropdown.show {
+  display: block;
+  animation: fadeInDown 0.2s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#historyDropdown .dropdown-item {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+#historyDropdown .dropdown-item:last-child {
+  border-bottom: none;
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+}
+
+#historyDropdown .dropdown-item:first-child {
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+}
+
+#historyDropdown .dropdown-item:hover {
+  background-color: var(--bg-secondary);
+  transform: translateX(2px);
+}
+
+#historyDropdown .dropdown-item-text {
+  padding: 0.75rem 1rem;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+#historyDropdown .dropdown-item .fw-medium {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+#historyDropdown .dropdown-item .text-muted {
+  color: var(--text-secondary) !important;
+  font-size: 0.875rem;
+}
+
+#clearHistoryBtn {
+  border-left: 1px solid var(--border-color);
+  transition: all 0.15s ease-in-out;
+}
+
+#clearHistoryBtn:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* 深色主题特定样式 */
+[data-bs-theme="dark"] #historyDropdown {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+[data-bs-theme="dark"] #historyDropdown .dropdown-item {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-bs-theme="dark"] #historyDropdown .dropdown-item:hover {
+  background-color: var(--bg-tertiary);
+}
+
+[data-bs-theme="dark"] #clearHistoryBtn {
+  border-color: var(--border-color);
+  color: #dc3545;
+}
+
+[data-bs-theme="dark"] #clearHistoryBtn:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+/* 历史目录项的图标和徽章样式 */
+#historyDropdown .dropdown-item .bi-folder-fill {
+  transition: color 0.15s ease-in-out;
+}
+
+#historyDropdown .dropdown-item:hover .bi-folder-fill {
+  color: #0d6efd !important;
+}
+
+#historyDropdown .dropdown-item .badge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+}
+
+[data-bs-theme="light"] #historyDropdown .dropdown-item .badge {
+  background-color: #e9ecef !important;
+  color: #495057 !important;
+}
+
+[data-bs-theme="dark"] #historyDropdown .dropdown-item .badge {
+  background-color: #495057 !important;
+  color: #f8f9fa !important;
+}
+
+#historyDropdown .dropdown-item .bi-arrow-right {
+  transition: transform 0.15s ease-in-out, opacity 0.15s ease-in-out;
+}
+
+#historyDropdown .dropdown-item:hover .bi-arrow-right {
+  transform: translateX(2px);
+  opacity: 1 !important;
+}
+
+/* 空状态样式 */
+#historyDropdown .dropdown-item-text {
+  background-color: transparent;
+  border: 2px dashed var(--border-color);
+  border-radius: 0.375rem;
+  margin: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+[data-bs-theme="dark"] #historyDropdown .dropdown-item-text {
+  border-color: var(--border-color);
+  color: var(--text-muted);
+}
+
+/* 扫描进度条主题样式 */
+.progress-container-bg {
+  background-color: var(--bg-primary);
+  border-color: var(--border-color) !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.progress-title {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.progress-message {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+/* 浅色主题进度条 */
+[data-bs-theme="light"] .progress-container-bg {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="light"] .progress-title {
+  color: #495057;
+}
+
+[data-bs-theme="light"] .progress-message {
+  color: #6c757d;
+}
+
+/* 深色主题进度条 */
+[data-bs-theme="dark"] .progress-container-bg {
+  background-color: var(--bg-secondary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+[data-bs-theme="dark"] .progress-title {
+  color: var(--text-primary);
+}
+
+[data-bs-theme="dark"] .progress-message {
+  color: var(--text-secondary);
+}
+
+/* 进度条本身的主题样式 */
+[data-bs-theme="dark"] .progress {
+  background-color: var(--bg-tertiary);
+}
+
+[data-bs-theme="light"] .progress {
+  background-color: #e9ecef;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  #historyDropdown .dropdown-item {
+    padding: 0.5rem 0.75rem;
+  }
+
+  #historyDropdown .dropdown-item .fw-medium {
+    font-size: 0.9rem;
+  }
+
+  #historyDropdown .dropdown-item .small {
+    font-size: 0.75rem;
+  }
+
+  #historyDropdown .dropdown-item .badge {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  /* 移动端进度条调整 */
+  .progress-container-bg {
+    padding: 0.75rem;
+  }
+
+  .progress-title {
+    font-size: 0.9rem;
+  }
+
+  .progress-message {
+    font-size: 0.8rem;
+  }
+}
+
+/* 文件和文件夹列表样式 */
+.file-item, .folder-item {
+  transition: all 0.2s ease-in-out;
+  border-radius: 0.375rem;
+  margin-bottom: 2px;
+}
+
+.file-item:hover, .folder-item:hover {
+  background-color: var(--bg-secondary) !important;
+  transform: translateX(3px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .file-item:hover,
+[data-bs-theme="dark"] .folder-item:hover {
+  background-color: var(--bg-tertiary) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.file-item .bi-file-earmark {
+  transition: color 0.2s ease-in-out;
+}
+
+.file-item:hover .bi-file-earmark {
+  color: #0d6efd !important;
+}
+
+.folder-item .bi-folder-fill {
+  transition: color 0.2s ease-in-out;
+}
+
+.folder-item:hover .bi-folder-fill {
+  color: #ffc107 !important;
+}
+
+.file-item .bi-folder-open,
+.folder-item .bi-folder-open {
+  transition: all 0.2s ease-in-out;
+  opacity: 0.6;
+}
+
+.file-item:hover .bi-folder-open,
+.folder-item:hover .bi-folder-open {
+  opacity: 1;
+  transform: scale(1.1);
+  color: #28a745 !important;
+}
+
+/* 文件和文件夹列表的徽章样式 */
+.file-item .badge {
+  transition: all 0.2s ease-in-out;
+}
+
+.folder-item .badge {
+  transition: all 0.2s ease-in-out;
+}
+
+.file-item:hover .badge {
+  transform: scale(1.05);
+}
+
+.folder-item:hover .badge {
+  transform: scale(1.05);
+}
+
+/* 详细统计页面的标题图标 */
+.detailed-stats-title {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.detailed-stats-title i {
+  color: #0d6efd;
+}
+
+/* 统计卡片样式增强 */
+.stats-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .stats-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 紧凑卡片样式 */
+.compact-card {
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.compact-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+[data-bs-theme="dark"] .compact-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+[data-bs-theme="dark"] .compact-card:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.compact-card .card-header {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+}
+
+.compact-card .card-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.compact-card .btn-sm {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* 紧凑的统计数字显示 */
+.compact-stats {
+  padding: 0.5rem 0;
+}
+
+.compact-stats .h5 {
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.compact-stats .text-muted {
+  font-size: 0.75rem;
+}
+
+/* 紧凑列表样式 */
+.compact-list {
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .compact-list {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.file-item-compact, .folder-item-compact {
+  transition: all 0.2s ease-in-out;
+  border: none !important;
+  border-radius: 0.25rem;
+  margin-bottom: 1px;
+}
+
+.file-item-compact:hover, .folder-item-compact:hover {
+  background-color: var(--bg-secondary) !important;
+  transform: translateX(2px);
+}
+
+[data-bs-theme="dark"] .file-item-compact:hover,
+[data-bs-theme="dark"] .folder-item-compact:hover {
+  background-color: var(--bg-tertiary) !important;
+}
+
+.file-item-compact .btn-sm, .folder-item-compact .btn-sm {
+  border-radius: 0.25rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.file-item-compact .btn-sm:hover, .folder-item-compact .btn-sm:hover {
+  transform: scale(1.1);
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+/* 最小宽度设置，防止文本被挤压 */
+.min-width-0 {
+  min-width: 0;
+}
+
+/* 小徽章样式 */
+.badge.small {
+  font-size: 0.7rem;
+  padding: 0.25em 0.5em;
+}
+
+/* 文件和文件夹项的最大宽度限制 */
+.file-item-compact .flex-grow-1,
+.folder-item-compact .flex-grow-1 {
+  max-width: 300px; /* 设置最大宽度 */
+  overflow: hidden;
+}
+
+.file-item-compact .fw-medium,
+.folder-item-compact .fw-medium {
+  max-width: 280px; /* 文件名最大宽度 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-item-compact .text-muted,
+.folder-item-compact .text-muted {
+  max-width: 280px; /* 路径最大宽度 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 确保整个列表项不会过宽 */
+.compact-list .list-group-item {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .file-item-compact .flex-grow-1,
+  .folder-item-compact .flex-grow-1 {
+    max-width: 200px;
+  }
+
+  .file-item-compact .fw-medium,
+  .folder-item-compact .fw-medium,
+  .file-item-compact .text-muted,
+  .folder-item-compact .text-muted {
+    max-width: 180px;
+  }
+}
+
+/* 文件分类相关样式 */
+.category-list {
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .category-list {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.category-item {
+  transition: all 0.2s ease-in-out;
+  border: none !important;
+  border-radius: 0.25rem !important;
+  margin-bottom: 2px;
+}
+
+.category-item:hover {
+  background-color: var(--bg-secondary) !important;
+  transform: translateX(2px);
+}
+
+.category-item.active {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  transform: translateX(4px);
+}
+
+.category-item.active .text-muted {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.category-item.active .badge {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+/* 分类文件容器 */
+.category-files-container {
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  min-height: 300px;
+  padding: 1rem;
+}
+
+[data-bs-theme="dark"] .category-files-container {
+  border-color: var(--border-color-dark);
+  background-color: var(--bg-secondary);
+}
+
+.category-files-list {
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .category-files-list {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.category-file-item {
+  transition: all 0.2s ease-in-out;
+  border: none !important;
+  border-radius: 0.25rem;
+  margin-bottom: 1px;
+}
+
+.category-file-item:hover {
+  background-color: var(--bg-secondary) !important;
+  transform: translateX(2px);
+}
+
+[data-bs-theme="dark"] .category-file-item:hover {
+  background-color: var(--bg-tertiary) !important;
+}
+
+.category-file-locate-btn {
+  border-radius: 0.25rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.category-file-locate-btn:hover {
+  transform: scale(1.1);
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+/* 限制文件信息容器的宽度，确保按钮可见 */
+.category-file-item .flex-grow-1.min-width-0 {
+  max-width: calc(100% - 140px); /* 为按钮和徽章预留更多空间 */
+  overflow: hidden;
+}
+
+/* 文件名和路径的文本截断 */
+.category-file-item .fw-medium,
+.category-file-item .text-muted {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* 文件路径特殊处理 - 更短的显示 */
+.category-file-item .text-muted {
+  max-width: calc(100% - 20px);
+  font-size: 0.7rem !important;
+}
+
+/* 文件名特殊处理 */
+.category-file-item .fw-medium {
+  max-width: calc(100% - 10px);
+  font-size: 0.8rem;
+}
+
+/* 确保按钮不被压缩 */
+.category-file-locate-btn {
+  flex-shrink: 0;
+}
+
+/* 在小屏幕上进一步缩小文件信息区域 */
+@media (max-width: 768px) {
+  .category-file-item .flex-grow-1.min-width-0 {
+    max-width: calc(100% - 120px);
+  }
+
+  .category-file-item .fw-medium {
+    font-size: 0.75rem;
+  }
+
+  .category-file-item .text-muted {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* 极简样式 - 只保留必要的布局和功能性样式 */
+
+/* 文件路径宽度限制 - 防止布局破坏 */
+.file-path-text {
+  max-width: 300px;
+}
+
+/* 滚动容器高度限制 */
+.file-list-container,
+.category-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .file-path-text {
+    max-width: 200px;
+  }
+
+  .file-list-container,
+  .category-list {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .file-path-text {
+    max-width: 150px;
+  }
+}
+.compact-card .card-body .mb-3:last-child {
+  margin-bottom: 0 !important;
+}
+
+.compact-card .card-body .row.g-1 {
+  --bs-gutter-x: 0.25rem;
+}
+
+.compact-card .card-body .small.text-muted.fw-medium {
+  font-size: 0.8rem;
+  color: var(--text-secondary) !important;
+  margin-bottom: 0.25rem;
+}
+
+[data-bs-theme="dark"] .compact-card .card-body .small.text-muted.fw-medium {
+  color: var(--text-secondary-dark) !important;
+}
+
+/* 功能分组分隔线 */
+.compact-card .card-body .mb-3 {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.75rem;
+}
+
+.compact-card .card-body .mb-3:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+[data-bs-theme="dark"] .compact-card .card-body .mb-3 {
+  border-bottom-color: var(--border-color-dark);
+}
+
+/* 按钮组间距优化 */
+.compact-card .btn-sm {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* 复选框样式优化 */
+.compact-card .form-check {
+  margin-bottom: 0.5rem;
+}
+
+.compact-card .form-check-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+[data-bs-theme="dark"] .compact-card .form-check-label {
+  color: var(--text-secondary-dark);
+}
+
+/* 文件夹管理页面布局优化 - 强制左右分布 */
+#operationsArea {
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+
+#operationsArea .row {
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+}
+
+#operationsArea .col-6,
+#operationsArea .col-sm-6,
+#operationsArea .col-md-6,
+#operationsArea .col-lg-6 {
+  flex: 0 0 50% !important;
+  max-width: 50% !important;
+  min-width: 0 !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+}
+
+/* 小屏幕下的文件夹管理布局优化 */
+@media (max-width: 768px) {
+  #operationsArea .row {
+    flex-wrap: nowrap !important;
+  }
+
+  #operationsArea .col-6,
+  #operationsArea .col-sm-6,
+  #operationsArea .col-md-6,
+  #operationsArea .col-lg-6 {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  #operationsArea .card-body {
+    padding: 0.75rem;
+  }
+
+  #operationsArea .card-title {
+    font-size: 0.9rem;
+  }
+
+  #operationsArea h6 {
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #operationsArea .btn {
+    font-size: 0.8rem;
+    padding: 0.375rem 0.5rem;
+  }
+
+  #operationsArea .form-check-label {
+    font-size: 0.8rem;
+  }
+}
+
+/* 极小屏幕下的优化 */
+@media (max-width: 576px) {
+  #operationsArea .row {
+    flex-wrap: nowrap !important;
+  }
+
+  #operationsArea .col-6,
+  #operationsArea .col-sm-6,
+  #operationsArea .col-md-6,
+  #operationsArea .col-lg-6 {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+  }
+
+  #operationsArea .card-body {
+    padding: 0.5rem;
+  }
+
+  #operationsArea .card-title {
+    font-size: 0.85rem;
+  }
+
+  #operationsArea h6 {
+    font-size: 0.75rem;
+    margin-bottom: 0.4rem;
+  }
+
+  #operationsArea .btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.4rem;
+  }
+
+  #operationsArea .btn-group .btn {
+    flex: 1;
+    min-width: 0;
+  }
+
+  #operationsArea .form-check {
+    margin-bottom: 0.4rem;
+  }
+
+  #operationsArea .form-check-label {
+    font-size: 0.75rem;
+  }
+
+  #operationsArea .mb-3 {
+    margin-bottom: 0.75rem !important;
+  }
+}
+
+/* VS Code 风格特殊样式 */
+.vscode-input {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 3px;
+  padding: 4px 8px;
+  font-size: 13px;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+.vscode-input:focus {
+  border-color: var(--accent-color);
+  outline: none;
+  box-shadow: 0 0 0 1px var(--accent-color);
+}
+
+.vscode-button {
+  background-color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  color: white;
+  border-radius: 3px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.vscode-button:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.vscode-button:disabled {
+  background-color: var(--bg-tertiary);
+  border-color: var(--border-color);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* 紧凑间距工具类 */
+.compact-spacing {
+  margin: 4px 0;
+  padding: 4px 8px;
+}
+
+.compact-spacing-sm {
+  margin: 2px 0;
+  padding: 2px 4px;
+}
+
+/* 打印样式 */
+@media print {
+  .sidebar,
+  .btn,
+  .modal,
+  .toast,
+  #historyDropdown {
+    display: none !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+  }
+}
+
+/* VS Code 风格简化样式 */
+
+/* 步骤数字样式 - 简化版 */
+.step-number {
+  font-weight: 600;
+  font-size: 12px;
+  transition: background-color 0.2s ease;
+}
+
+/* 卡片样式 - 移除过度动画 */
+.card {
+  transition: box-shadow 0.2s ease;
+}
+
+/* 按钮组优化 - VS Code 风格 */
+.btn-group .btn {
+  border-radius: 3px !important;
+  margin-right: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-group .btn:last-child {
+  margin-right: 0;
+}
+
+/* 手风琴优化 - 简化版 */
+.accordion-button:not(.collapsed) {
+  background-color: var(--bg-hover);
+  border-color: var(--border-color);
+}
+
+.accordion-button {
+  transition: background-color 0.2s ease;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+/* 警告框样式优化 - VS Code 风格 */
+.alert {
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+/* 输入框组优化 - VS Code 风格 */
+.input-group {
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.input-group-text {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+/* 响应式优化 - 紧凑版 */
+@media (max-width: 768px) {
+  .step-number {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 10px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .btn-group .btn {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+
+  .card {
+    margin-bottom: 8px;
+  }
+
+  .accordion-button {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+}
+
+/* ===== 文件夹管理页面特定样式 ===== */
+
+/* 卡片左边框强调色 */
+.card[style*="border-left"] {
+  border: 1px solid var(--border-color) !important;
+  border-radius: 4px;
+}
+
+/* 小尺寸表单控件 */
+.form-check-sm .form-check-input {
+  margin-top: 0.1rem;
+}
+
+.form-check-sm .form-check-label {
+  font-size: 13px;
+}
+
+/* 按钮组紧凑样式 */
+.btn-group .btn-sm {
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+/* 输入组紧凑样式 */
+.input-group-sm .input-group-text {
+  padding: 4px 8px;
+  font-size: 13px;
+}
+
+.input-group-sm .form-control {
+  padding: 4px 8px;
+  font-size: 13px;
+}
+
+/* 模态框紧凑样式 */
+.modal-dialog-centered {
+  min-height: calc(100% - 3rem);
+}
+
+.btn-close-sm {
+  font-size: 0.75rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+/* 警告框紧凑样式 */
+.alert[style*="font-size: 12px"] {
+  padding: 6px 12px;
+  margin-bottom: 8px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+
+/* 加载动画居中 */
+#loadingSpinner {
+  background-color: rgba(var(--bg-primary-rgb), 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 文件夹管理页面的卡片头部样式 */
+.card-header[style*="border-left"] {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+/* 紧凑的选择框 */
+.form-select-sm {
+  padding: 4px 8px;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+/* 紧凑的标签 */
+.form-label.small {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+/* 工具提示图标 */
+.bi-info-circle {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.bi-info-circle:hover {
+  opacity: 1;
+}
+
+/* 文件夹管理页面按钮边框优化 */
+/* 确保所有outline按钮在深色主题下都有清晰的边框 */
+.btn-outline-secondary,
+.btn-outline-primary {
+  border-width: 1px;
+  border-style: solid;
+}
+
+/* 深色主题下的按钮边框 */
+[data-bs-theme="dark"] .btn-outline-secondary {
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+  background-color: transparent;
+}
+
+[data-bs-theme="dark"] .btn-outline-secondary:hover {
+  border-color: var(--text-secondary);
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+[data-bs-theme="dark"] .btn-outline-primary {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  background-color: transparent;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary:hover {
+  border-color: var(--accent-color);
+  background-color: var(--accent-color);
+  color: #ffffff;
+}
+
+/* 浅色主题下的按钮边框 */
+[data-bs-theme="light"] .btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+  background-color: transparent;
+}
+
+[data-bs-theme="light"] .btn-outline-secondary:hover {
+  border-color: #6c757d;
+  background-color: #6c757d;
+  color: #ffffff;
+}
+
+[data-bs-theme="light"] .btn-outline-primary {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  background-color: transparent;
+}
+
+[data-bs-theme="light"] .btn-outline-primary:hover {
+  border-color: var(--accent-color);
+  background-color: var(--accent-color);
+  color: #ffffff;
+}
+
+/* 按钮组中的按钮边框 */
+.btn-group .btn-outline-secondary,
+.btn-group .btn-outline-primary {
+  border-width: 1px !important;
+}
+
+/* 确保按钮在焦点状态下也有清晰的边框 */
+.btn-outline-secondary:focus,
+.btn-outline-primary:focus {
+  box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.25);
+}

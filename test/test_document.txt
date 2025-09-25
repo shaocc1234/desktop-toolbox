@@ -1,0 +1,53 @@
+Docker在Windows上的安装和运行教程
+
+Docker是一个开源的容器化平台，可以让开发者将应用程序及其依赖项打包到轻量级、可移植的容器中。本教程将详细介绍如何在Windows系统上安装和运行Docker。
+
+## 系统要求
+
+在安装Docker之前，请确保您的Windows系统满足以下要求：
+
+1. Windows 10 64位：专业版、企业版或教育版（版本1903或更高版本）
+2. Windows 11 64位：家庭版或专业版
+3. 启用Hyper-V和容器功能
+4. 至少4GB RAM
+5. 在BIOS中启用虚拟化
+
+## 安装步骤
+
+### 1. 下载Docker Desktop
+
+访问Docker官方网站 https://www.docker.com/products/docker-desktop
+点击"Download for Windows"按钮下载Docker Desktop安装程序
+
+### 2. 运行安装程序
+
+双击下载的Docker Desktop Installer.exe文件
+按照安装向导的提示完成安装过程
+安装完成后，系统可能需要重启
+
+### 3. 启动Docker Desktop
+
+从开始菜单或桌面快捷方式启动Docker Desktop
+首次启动时，Docker会进行初始化配置
+等待Docker引擎启动完成
+
+## 验证安装
+
+打开命令提示符或PowerShell，运行以下命令验证Docker是否正确安装：
+
+```
+docker --version
+docker run hello-world
+```
+
+如果看到版本信息和"Hello from Docker!"消息，说明安装成功。
+
+## 常见问题
+
+1. 如果遇到"Docker Desktop requires Windows 10 Pro"错误，请升级到Windows 10专业版
+2. 如果Docker无法启动，请检查Hyper-V是否已启用
+3. 如果容器运行缓慢，请增加分配给Docker的内存
+
+## 总结
+
+通过以上步骤，您已经成功在Windows系统上安装了Docker。现在可以开始使用Docker来容器化您的应用程序了。

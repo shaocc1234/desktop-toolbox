@@ -1,0 +1,1864 @@
+/* 主题样式变量 */
+:root {
+  /* 浅色主题变量 */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #e9ecef;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --text-muted: #999999;
+  --border-color: #dee2e6;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-hover: rgba(0, 0, 0, 0.15);
+}
+
+[data-bs-theme="dark"] {
+  /* 深色主题变量 */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --bg-tertiary: #404040;
+  --text-primary: #ffffff;
+  --text-secondary: #a6a6a6;
+  --text-muted: #737373;
+  --border-color: #404040;
+  --shadow: rgba(255, 255, 255, 0.1);
+  --shadow-hover: rgba(255, 255, 255, 0.15);
+}
+
+/* 基础样式 */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* 应用容器 - 使用Flexbox布局 */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+  background-color: var(--bg-secondary) !important;
+  border-color: var(--border-color) !important;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  width: 280px;
+  min-width: 280px;
+  position: relative;
+  transition: width 0.3s ease, min-width 0.3s ease;
+}
+
+/* 侧边栏收起状态 */
+.sidebar.collapsed {
+  width: 60px !important;
+  min-width: 60px !important;
+  transition: width 0.3s ease;
+}
+
+.sidebar.collapsed .nav-link-text,
+.sidebar.collapsed .sidebar-brand-text,
+.sidebar.collapsed .theme-switch-text {
+  display: none;
+}
+
+.sidebar.collapsed .nav-link {
+  justify-content: center;
+  padding: 0.75rem;
+}
+
+.sidebar.collapsed .sidebar-brand {
+  justify-content: center;
+}
+
+.sidebar.collapsed .theme-switch {
+  justify-content: center;
+}
+
+/* 侧边栏切换按钮 */
+.sidebar-toggle {
+  position: absolute;
+  top: 3.5rem; /* 调整位置，与头部间距保持一致 */
+  right: -15px;
+  width: 30px;
+  height: 30px;
+  background: var(--bs-primary);
+  border: 2px solid var(--bg-primary);
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  font-size: 0.75rem;
+}
+
+.sidebar-toggle:hover {
+  background: var(--bs-primary);
+  transform: scale(1.1);
+}
+
+.sidebar.collapsed .sidebar-toggle {
+  right: -15px;
+}
+
+.sidebar-toggle i {
+  transition: transform 0.3s ease;
+}
+
+.sidebar.collapsed .sidebar-toggle i {
+  transform: rotate(180deg);
+}
+
+.sidebar-header {
+  border-color: var(--border-color) !important;
+  /* 增加顶部间距，避免被系统按键挡住 */
+  padding-top: 3.5rem !important;
+}
+
+.sidebar-nav {
+  flex-grow: 1;
+}
+
+.sidebar-footer {
+  border-color: var(--border-color) !important;
+}
+
+.sidebar .nav-link {
+  color: var(--text-secondary);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  transform: translateX(4px);
+}
+
+.sidebar .nav-link.active {
+  background-color: var(--bs-primary);
+  color: white;
+}
+
+/* 主内容区样式 */
+.main-content {
+  background-color: var(--bg-primary);
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 卡片样式 */
+.card {
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  box-shadow: 0 0.125rem 0.25rem var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 0.25rem 0.5rem var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+/* 上传区域样式 */
+.upload-area {
+  border: 3px dashed var(--border-color);
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-area:hover {
+  border-color: var(--bs-primary);
+  background-color: var(--bg-tertiary);
+  transform: scale(1.02);
+}
+
+.upload-area.drag-over {
+  border-color: var(--bs-primary);
+  background-color: rgba(13, 110, 253, 0.1);
+  transform: scale(1.02);
+}
+
+.upload-content {
+  pointer-events: none;
+}
+
+.upload-content .btn {
+  pointer-events: auto;
+}
+
+/* 图片卡片样式 */
+.image-card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.image-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.5rem 1rem var(--shadow-hover);
+}
+
+.image-thumbnail {
+  transition: all 0.3s ease;
+  border-radius: 8px 8px 0 0;
+}
+
+.image-thumbnail:hover {
+  transform: scale(1.05);
+}
+
+/* 按钮样式增强 - 紧凑设计 */
+.btn {
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-lg {
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.btn-sm {
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.btn-xs {
+  border-radius: 3px;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.6875rem;
+  line-height: 1.2;
+}
+
+/* 表单控件样式 */
+.form-control, .form-select {
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: var(--bg-primary);
+  border-color: var(--bs-primary);
+  color: var(--text-primary);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* 进度条样式 */
+.progress {
+  background-color: var(--bg-tertiary);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  border-radius: 10px;
+}
+
+/* 徽章样式 */
+.badge {
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* 模态框样式 */
+.modal-content {
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  border-radius: 12px;
+}
+
+.modal-header {
+  border-color: var(--border-color);
+}
+
+.modal-footer {
+  border-color: var(--border-color);
+}
+
+/* Toast 通知样式 */
+.toast {
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  border-radius: 8px;
+}
+
+.toast-header {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+/* 统计项样式 */
+.stat-item {
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  background-color: var(--bg-tertiary);
+  transform: translateY(-2px);
+}
+
+/* 选择框样式 */
+.form-check-input {
+  border-radius: 4px;
+  border-color: var(--border-color);
+}
+
+.form-check-input:checked {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+/* 文件列表样式 */
+.file-item {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.file-item:hover {
+  background-color: var(--bg-tertiary);
+  transform: translateY(-2px);
+}
+
+.file-preview {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid var(--border-color);
+}
+
+/* 响应式设计 - 针对桌面应用窗口尺寸优化 */
+
+/* 桌面应用 - 自动侧边栏收起逻辑 */
+.desktop-app .sidebar.auto-collapsed {
+  width: 60px;
+  min-width: 60px;
+}
+
+/* 超宽屏幕 (1800px+) - 充分利用横向空间 */
+@media (min-width: 1800px) {
+  .sidebar {
+    width: 300px !important;
+    min-width: 300px !important;
+  }
+  
+  .main-content main {
+    padding: 2rem 3rem;
+  }
+  
+  /* 图片网格 - 5列布局 */
+  .image-grid .col-md-6.col-lg-4 {
+    flex: 0 0 auto;
+    width: 20%;
+  }
+  
+  /* 文件列表 - 3列布局 */
+  .file-list .col-md-6.col-lg-4 {
+    width: 33.333333%;
+  }
+}
+
+/* 大屏幕 (1400px-1799px) - 标准宽屏 */
+@media (min-width: 1400px) and (max-width: 1799px) {
+  .sidebar {
+    width: 280px !important;
+    min-width: 280px !important;
+  }
+  
+  .main-content main {
+    padding: 1.5rem 2rem;
+  }
+  
+  /* 图片网格 - 4列布局 */
+  .image-grid .col-md-6.col-lg-4 {
+    width: 25%;
+  }
+  
+  /* 文件列表 - 2列布局 */
+  .file-list .col-md-6 {
+    width: 50%;
+  }
+}
+
+/* 宽屏幕 (1600px-2399px) - 标准宽屏优化 */
+@media (min-width: 1600px) and (max-width: 2399px) {
+  .container-fluid {
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+  
+  .sidebar {
+    width: 280px;
+    min-width: 280px;
+  }
+  
+  .main-content {
+    padding: 1.5rem 2rem;
+  }
+  
+  /* 图片网格 - 4列布局 */
+  .image-grid .col-md-6.col-lg-4 {
+    width: 25%;
+  }
+  
+  /* 文件列表 - 2列布局 */
+  .file-list .col-md-6 {
+    width: 50%;
+  }
+}
+
+/* 中等屏幕 (1200px-1399px) - 标准桌面 */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .sidebar {
+    width: 260px;
+    min-width: 260px;
+  }
+  
+  .main-content {
+    padding: 1.5rem;
+  }
+  
+  /* 图片网格 - 3列布局 */
+  .image-grid .col-lg-4 {
+    width: 33.333333%;
+  }
+}
+
+/* 桌面应用小窗口 (1000px-1199px) - 自动收起侧边栏 */
+@media (min-width: 1000px) and (max-width: 1199px) {
+  .desktop-app .sidebar {
+    width: 60px;
+    min-width: 60px;
+  }
+  
+  .desktop-app .sidebar .nav-link-text,
+  .desktop-app .sidebar .sidebar-brand-text,
+  .desktop-app .sidebar .theme-switch-text {
+    display: none;
+  }
+  
+  .desktop-app .sidebar .nav-link {
+    justify-content: center;
+    padding: 0.75rem;
+  }
+  
+  .desktop-app .sidebar .sidebar-brand {
+    justify-content: center;
+  }
+  
+  .main-content {
+    padding: 1rem 1.5rem;
+  }
+  
+  /* 图片网格 - 3列布局 */
+  .image-grid .col-lg-4 {
+    width: 33.333333%;
+  }
+  
+  /* 文件列表 - 1列布局 */
+  .file-list .col-md-6 {
+    width: 100%;
+  }
+}
+
+/* 桌面应用超小窗口 (800px-999px) - 强制收起侧边栏 */
+@media (min-width: 800px) and (max-width: 999px) {
+  .desktop-app .sidebar {
+    width: 60px !important;
+    min-width: 60px !important;
+  }
+  
+  .desktop-app .sidebar .nav-link-text,
+  .desktop-app .sidebar .sidebar-brand-text,
+  .desktop-app .sidebar .theme-switch-text {
+    display: none !important;
+  }
+  
+  .desktop-app .sidebar .nav-link {
+    justify-content: center;
+    padding: 0.5rem;
+  }
+  
+  .desktop-app .sidebar .sidebar-brand {
+    justify-content: center;
+    padding: 0.5rem;
+  }
+  
+  .main-content {
+    padding: 1rem;
+  }
+  
+  /* 图片网格 - 2列布局 */
+  .image-grid .col-md-6 {
+    width: 50%;
+  }
+  
+  /* 文件列表 - 1列布局 */
+  .file-list .col-md-6 {
+    width: 100%;
+  }
+  
+  .upload-area {
+    min-height: 200px;
+  }
+  
+  /* 紧凑的卡片间距 */
+  .card {
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* 桌面应用极小窗口 (600px-799px) - 最小化布局 */
+@media (min-width: 600px) and (max-width: 799px) {
+  .desktop-app .sidebar {
+    width: 50px !important;
+    min-width: 50px !important;
+  }
+  
+  .desktop-app .sidebar .nav-link-text,
+  .desktop-app .sidebar .sidebar-brand-text,
+  .desktop-app .sidebar .theme-switch-text {
+    display: none !important;
+  }
+  
+  .desktop-app .sidebar .nav-link {
+    justify-content: center;
+    padding: 0.4rem;
+    font-size: 0.875rem;
+  }
+  
+  .desktop-app .sidebar .sidebar-brand {
+    justify-content: center;
+    padding: 0.4rem;
+  }
+  
+  .main-content {
+    padding: 0.75rem;
+  }
+  
+  /* 图片网格 - 1列布局 */
+  .image-grid .col-12 {
+    width: 100%;
+  }
+  
+  /* 文件列表 - 1列布局 */
+  .file-list .col-12 {
+    width: 100%;
+  }
+  
+  .upload-area {
+    min-height: 150px;
+  }
+  
+  /* 更紧凑的卡片 */
+  .card {
+    margin-bottom: 0.5rem;
+  }
+  
+  .btn-lg {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* 平板屏幕 (768px-991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+  }
+  
+  .main-content {
+    padding: 1rem;
+  }
+  
+  /* 图片网格 - 2列布局 */
+  .image-grid .col-md-6 {
+    width: 50%;
+  }
+  
+  /* 文件列表 - 1列布局 */
+  .file-list .col-md-6 {
+    width: 100%;
+  }
+  
+  .upload-area {
+    min-height: 250px;
+  }
+}
+
+/* 手机屏幕 (最大767px) */
+@media (max-width: 767px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 280px;
+    z-index: 1050;
+    transition: left 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .sidebar.show {
+    left: 0;
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 1rem 0.75rem;
+  }
+  
+  /* 添加汉堡菜单按钮 */
+  .mobile-menu-btn {
+    display: block;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1051;
+    background: var(--bs-primary);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem;
+    color: white;
+  }
+  
+  /* 图片网格 - 1列布局 */
+  .image-grid .col-12 {
+    width: 100%;
+  }
+  
+  /* 文件列表 - 1列布局 */
+  .file-list .col-12 {
+    width: 100%;
+  }
+  
+  .upload-area {
+    min-height: 200px;
+  }
+  
+  .image-card {
+    margin-bottom: 1rem;
+  }
+  
+  /* 紧凑的按钮组 */
+  .btn-group-vertical .btn {
+    margin-bottom: 0.25rem;
+  }
+}
+
+/* 超小屏幕 (最大575px) */
+@media (max-width: 575px) {
+  .main-content {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .card {
+    margin-bottom: 0.75rem;
+  }
+  
+  .btn-lg {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+  
+  .upload-area {
+    min-height: 180px;
+  }
+  
+  /* 更紧凑的表单 */
+  .form-control, .form-select {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* 加载状态 */
+.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* 工具提示样式 */
+.tooltip {
+  font-size: 0.875rem;
+}
+
+.tooltip-inner {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+
+/* 特殊状态样式 */
+.success-state {
+  border-color: var(--bs-success) !important;
+  background-color: rgba(25, 135, 84, 0.1);
+}
+
+.error-state {
+  border-color: var(--bs-danger) !important;
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.warning-state {
+  border-color: var(--bs-warning) !important;
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+/* 图片网格优化 - 紧凑布局 */
+.image-grid-item {
+  break-inside: avoid;
+  margin-bottom: 0.75rem;
+}
+
+/* 图库页面紧凑样式 */
+.gallery-page {
+  font-size: 0.875rem;
+}
+
+.gallery-page .card {
+  margin-bottom: 0.75rem;
+}
+
+.gallery-page .card-body {
+  padding: 0.75rem;
+}
+
+.gallery-page .card-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.gallery-page .card-text {
+  font-size: 0.8125rem;
+  margin-bottom: 0.5rem;
+}
+
+/* 图片卡片紧凑样式 */
+.image-card {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.image-card .card-body {
+  padding: 0.5rem;
+}
+
+.image-card .card-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.image-card .card-text {
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.image-card .badge {
+  font-size: 0.6875rem;
+  padding: 0.125rem 0.375rem;
+}
+
+/* 图片操作按钮紧凑样式 */
+.image-actions {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.image-actions .btn {
+  padding: 0.125rem 0.375rem;
+  font-size: 0.6875rem;
+  border-radius: 3px;
+}
+
+/* 搜索和筛选区域紧凑样式 */
+.gallery-controls {
+  margin-bottom: 1rem;
+}
+
+.gallery-controls .form-control,
+.gallery-controls .form-select {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 6px;
+}
+
+.gallery-controls .btn {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* 筛选按钮组紧凑样式 */
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.filter-buttons .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* 图片信息文字紧凑 */
+.image-info {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+.image-size {
+  font-size: 0.6875rem;
+  color: var(--text-secondary);
+}
+
+.image-date {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+}
+
+/* 搜索高亮 */
+.highlight {
+  background-color: rgba(255, 193, 7, 0.3);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+/* 空状态样式 */
+.empty-state {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.empty-state i {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* 历史目录功能样式 */
+.history-directory-section {
+  margin-bottom: 1rem;
+}
+
+.history-directory-section .form-text {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+#historyDirectorySelect {
+  background-color: var(--bg-primary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+#historyDirectorySelect:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+#historyDirectorySelect option {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+#clearHistoryBtn {
+  border-color: var(--border-color);
+  color: #dc3545;
+}
+
+#clearHistoryBtn:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+/* 响应式设计 - 历史目录 */
+@media (max-width: 768px) {
+  .history-directory-section .input-group {
+    flex-wrap: wrap;
+  }
+
+  .history-directory-section .input-group .form-select {
+    flex: 1 1 70%;
+    min-width: 0;
+  }
+
+  .history-directory-section .input-group #clearHistoryBtn {
+    flex: 0 0 auto;
+  }
+}
+
+/* 历史目录输入框样式 */
+.directory-input-container {
+  position: relative;
+}
+
+#historyDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  margin-top: 2px;
+  transition: all 0.3s ease;
+}
+
+/* 浅色主题下的阴影 */
+[data-bs-theme="light"] #historyDropdown {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* 深色主题下的阴影 */
+[data-bs-theme="dark"] #historyDropdown {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
+}
+
+#historyDropdown.show {
+  display: block;
+  animation: fadeInDown 0.2s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#historyDropdown .dropdown-item {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+#historyDropdown .dropdown-item:last-child {
+  border-bottom: none;
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+}
+
+#historyDropdown .dropdown-item:first-child {
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+}
+
+#historyDropdown .dropdown-item:hover {
+  background-color: var(--bg-secondary);
+  transform: translateX(2px);
+}
+
+#historyDropdown .dropdown-item-text {
+  padding: 0.75rem 1rem;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+#historyDropdown .dropdown-item .fw-medium {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+#historyDropdown .dropdown-item .text-muted {
+  color: var(--text-secondary) !important;
+  font-size: 0.875rem;
+}
+
+#clearHistoryBtn {
+  border-left: 1px solid var(--border-color);
+  transition: all 0.15s ease-in-out;
+}
+
+#clearHistoryBtn:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* 深色主题特定样式 */
+[data-bs-theme="dark"] #historyDropdown {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+[data-bs-theme="dark"] #historyDropdown .dropdown-item {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-bs-theme="dark"] #historyDropdown .dropdown-item:hover {
+  background-color: var(--bg-tertiary);
+}
+
+[data-bs-theme="dark"] #clearHistoryBtn {
+  border-color: var(--border-color);
+  color: #dc3545;
+}
+
+[data-bs-theme="dark"] #clearHistoryBtn:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+/* 历史目录项的图标和徽章样式 */
+#historyDropdown .dropdown-item .bi-folder-fill {
+  transition: color 0.15s ease-in-out;
+}
+
+#historyDropdown .dropdown-item:hover .bi-folder-fill {
+  color: #0d6efd !important;
+}
+
+#historyDropdown .dropdown-item .badge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+}
+
+[data-bs-theme="light"] #historyDropdown .dropdown-item .badge {
+  background-color: #e9ecef !important;
+  color: #495057 !important;
+}
+
+[data-bs-theme="dark"] #historyDropdown .dropdown-item .badge {
+  background-color: #495057 !important;
+  color: #f8f9fa !important;
+}
+
+#historyDropdown .dropdown-item .bi-arrow-right {
+  transition: transform 0.15s ease-in-out, opacity 0.15s ease-in-out;
+}
+
+#historyDropdown .dropdown-item:hover .bi-arrow-right {
+  transform: translateX(2px);
+  opacity: 1 !important;
+}
+
+/* 空状态样式 */
+#historyDropdown .dropdown-item-text {
+  background-color: transparent;
+  border: 2px dashed var(--border-color);
+  border-radius: 0.375rem;
+  margin: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+[data-bs-theme="dark"] #historyDropdown .dropdown-item-text {
+  border-color: var(--border-color);
+  color: var(--text-muted);
+}
+
+/* 扫描进度条主题样式 */
+.progress-container-bg {
+  background-color: var(--bg-primary);
+  border-color: var(--border-color) !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.progress-title {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.progress-message {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+/* 浅色主题进度条 */
+[data-bs-theme="light"] .progress-container-bg {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="light"] .progress-title {
+  color: #495057;
+}
+
+[data-bs-theme="light"] .progress-message {
+  color: #6c757d;
+}
+
+/* 深色主题进度条 */
+[data-bs-theme="dark"] .progress-container-bg {
+  background-color: var(--bg-secondary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+[data-bs-theme="dark"] .progress-title {
+  color: var(--text-primary);
+}
+
+[data-bs-theme="dark"] .progress-message {
+  color: var(--text-secondary);
+}
+
+/* 进度条本身的主题样式 */
+[data-bs-theme="dark"] .progress {
+  background-color: var(--bg-tertiary);
+}
+
+[data-bs-theme="light"] .progress {
+  background-color: #e9ecef;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  #historyDropdown .dropdown-item {
+    padding: 0.5rem 0.75rem;
+  }
+
+  #historyDropdown .dropdown-item .fw-medium {
+    font-size: 0.9rem;
+  }
+
+  #historyDropdown .dropdown-item .small {
+    font-size: 0.75rem;
+  }
+
+  #historyDropdown .dropdown-item .badge {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  /* 移动端进度条调整 */
+  .progress-container-bg {
+    padding: 0.75rem;
+  }
+
+  .progress-title {
+    font-size: 0.9rem;
+  }
+
+  .progress-message {
+    font-size: 0.8rem;
+  }
+}
+
+/* 文件和文件夹列表样式 */
+.file-item, .folder-item {
+  transition: all 0.2s ease-in-out;
+  border-radius: 0.375rem;
+  margin-bottom: 2px;
+}
+
+.file-item:hover, .folder-item:hover {
+  background-color: var(--bg-secondary) !important;
+  transform: translateX(3px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .file-item:hover,
+[data-bs-theme="dark"] .folder-item:hover {
+  background-color: var(--bg-tertiary) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.file-item .bi-file-earmark {
+  transition: color 0.2s ease-in-out;
+}
+
+.file-item:hover .bi-file-earmark {
+  color: #0d6efd !important;
+}
+
+.folder-item .bi-folder-fill {
+  transition: color 0.2s ease-in-out;
+}
+
+.folder-item:hover .bi-folder-fill {
+  color: #ffc107 !important;
+}
+
+.file-item .bi-folder-open,
+.folder-item .bi-folder-open {
+  transition: all 0.2s ease-in-out;
+  opacity: 0.6;
+}
+
+.file-item:hover .bi-folder-open,
+.folder-item:hover .bi-folder-open {
+  opacity: 1;
+  transform: scale(1.1);
+  color: #28a745 !important;
+}
+
+/* 文件和文件夹列表的徽章样式 */
+.file-item .badge {
+  transition: all 0.2s ease-in-out;
+}
+
+.folder-item .badge {
+  transition: all 0.2s ease-in-out;
+}
+
+.file-item:hover .badge {
+  transform: scale(1.05);
+}
+
+.folder-item:hover .badge {
+  transform: scale(1.05);
+}
+
+/* 详细统计页面的标题图标 */
+.detailed-stats-title {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.detailed-stats-title i {
+  color: #0d6efd;
+}
+
+/* 统计卡片样式增强 */
+.stats-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .stats-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 紧凑卡片样式 */
+.compact-card {
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.compact-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+[data-bs-theme="dark"] .compact-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+[data-bs-theme="dark"] .compact-card:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.compact-card .card-header {
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+}
+
+.compact-card .card-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.compact-card .btn-sm {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* 紧凑的统计数字显示 */
+.compact-stats {
+  padding: 0.5rem 0;
+}
+
+.compact-stats .h5 {
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.compact-stats .text-muted {
+  font-size: 0.75rem;
+}
+
+/* 紧凑列表样式 */
+.compact-list {
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .compact-list {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.file-item-compact, .folder-item-compact {
+  transition: all 0.2s ease-in-out;
+  border: none !important;
+  border-radius: 0.25rem;
+  margin-bottom: 1px;
+}
+
+.file-item-compact:hover, .folder-item-compact:hover {
+  background-color: var(--bg-secondary) !important;
+  transform: translateX(2px);
+}
+
+[data-bs-theme="dark"] .file-item-compact:hover,
+[data-bs-theme="dark"] .folder-item-compact:hover {
+  background-color: var(--bg-tertiary) !important;
+}
+
+.file-item-compact .btn-sm, .folder-item-compact .btn-sm {
+  border-radius: 0.25rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.file-item-compact .btn-sm:hover, .folder-item-compact .btn-sm:hover {
+  transform: scale(1.1);
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+/* 最小宽度设置，防止文本被挤压 */
+.min-width-0 {
+  min-width: 0;
+}
+
+/* 小徽章样式 */
+.badge.small {
+  font-size: 0.7rem;
+  padding: 0.25em 0.5em;
+}
+
+/* 文件和文件夹项的最大宽度限制 */
+.file-item-compact .flex-grow-1,
+.folder-item-compact .flex-grow-1 {
+  max-width: 300px; /* 设置最大宽度 */
+  overflow: hidden;
+}
+
+.file-item-compact .fw-medium,
+.folder-item-compact .fw-medium {
+  max-width: 280px; /* 文件名最大宽度 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-item-compact .text-muted,
+.folder-item-compact .text-muted {
+  max-width: 280px; /* 路径最大宽度 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 确保整个列表项不会过宽 */
+.compact-list .list-group-item {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .file-item-compact .flex-grow-1,
+  .folder-item-compact .flex-grow-1 {
+    max-width: 200px;
+  }
+
+  .file-item-compact .fw-medium,
+  .folder-item-compact .fw-medium,
+  .file-item-compact .text-muted,
+  .folder-item-compact .text-muted {
+    max-width: 180px;
+  }
+}
+
+/* 文件分类相关样式 */
+.category-list {
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .category-list {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.category-item {
+  transition: all 0.2s ease-in-out;
+  border: none !important;
+  border-radius: 0.25rem !important;
+  margin-bottom: 2px;
+}
+
+.category-item:hover {
+  background-color: var(--bg-secondary) !important;
+  transform: translateX(2px);
+}
+
+.category-item.active {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  transform: translateX(4px);
+}
+
+.category-item.active .text-muted {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.category-item.active .badge {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+/* 分类文件容器 */
+.category-files-container {
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  min-height: 300px;
+  padding: 1rem;
+}
+
+[data-bs-theme="dark"] .category-files-container {
+  border-color: var(--border-color-dark);
+  background-color: var(--bg-secondary);
+}
+
+.category-files-list {
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .category-files-list {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.category-file-item {
+  transition: all 0.2s ease-in-out;
+  border: none !important;
+  border-radius: 0.25rem;
+  margin-bottom: 1px;
+}
+
+.category-file-item:hover {
+  background-color: var(--bg-secondary) !important;
+  transform: translateX(2px);
+}
+
+[data-bs-theme="dark"] .category-file-item:hover {
+  background-color: var(--bg-tertiary) !important;
+}
+
+.category-file-locate-btn {
+  border-radius: 0.25rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.category-file-locate-btn:hover {
+  transform: scale(1.1);
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+/* 限制文件信息容器的宽度，确保按钮可见 */
+.category-file-item .flex-grow-1.min-width-0 {
+  max-width: calc(100% - 140px); /* 为按钮和徽章预留更多空间 */
+  overflow: hidden;
+}
+
+/* 文件名和路径的文本截断 */
+.category-file-item .fw-medium,
+.category-file-item .text-muted {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* 文件路径特殊处理 - 更短的显示 */
+.category-file-item .text-muted {
+  max-width: calc(100% - 20px);
+  font-size: 0.7rem !important;
+}
+
+/* 文件名特殊处理 */
+.category-file-item .fw-medium {
+  max-width: calc(100% - 10px);
+  font-size: 0.8rem;
+}
+
+/* 确保按钮不被压缩 */
+.category-file-locate-btn {
+  flex-shrink: 0;
+}
+
+/* 在小屏幕上进一步缩小文件信息区域 */
+@media (max-width: 768px) {
+  .category-file-item .flex-grow-1.min-width-0 {
+    max-width: calc(100% - 120px);
+  }
+
+  .category-file-item .fw-medium {
+    font-size: 0.75rem;
+  }
+
+  .category-file-item .text-muted {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* 极简样式 - 只保留必要的布局和功能性样式 */
+
+/* 文件路径宽度限制 - 防止布局破坏 */
+.file-path-text {
+  max-width: 300px;
+}
+
+/* 滚动容器高度限制 */
+.file-list-container,
+.category-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .file-path-text {
+    max-width: 200px;
+  }
+
+  .file-list-container,
+  .category-list {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .file-path-text {
+    max-width: 150px;
+  }
+}
+.compact-card .card-body .mb-3:last-child {
+  margin-bottom: 0 !important;
+}
+
+.compact-card .card-body .row.g-1 {
+  --bs-gutter-x: 0.25rem;
+}
+
+.compact-card .card-body .small.text-muted.fw-medium {
+  font-size: 0.8rem;
+  color: var(--text-secondary) !important;
+  margin-bottom: 0.25rem;
+}
+
+[data-bs-theme="dark"] .compact-card .card-body .small.text-muted.fw-medium {
+  color: var(--text-secondary-dark) !important;
+}
+
+/* 功能分组分隔线 */
+.compact-card .card-body .mb-3 {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.75rem;
+}
+
+.compact-card .card-body .mb-3:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+[data-bs-theme="dark"] .compact-card .card-body .mb-3 {
+  border-bottom-color: var(--border-color-dark);
+}
+
+/* 按钮组间距优化 */
+.compact-card .btn-sm {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* 复选框样式优化 */
+.compact-card .form-check {
+  margin-bottom: 0.5rem;
+}
+
+.compact-card .form-check-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+[data-bs-theme="dark"] .compact-card .form-check-label {
+  color: var(--text-secondary-dark);
+}
+
+/* 文件夹管理页面布局优化 - 强制左右分布 */
+#operationsArea {
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+
+#operationsArea .row {
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+}
+
+#operationsArea .col-6,
+#operationsArea .col-sm-6,
+#operationsArea .col-md-6,
+#operationsArea .col-lg-6 {
+  flex: 0 0 50% !important;
+  max-width: 50% !important;
+  min-width: 0 !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+}
+
+/* 小屏幕下的文件夹管理布局优化 */
+@media (max-width: 768px) {
+  #operationsArea .row {
+    flex-wrap: nowrap !important;
+  }
+
+  #operationsArea .col-6,
+  #operationsArea .col-sm-6,
+  #operationsArea .col-md-6,
+  #operationsArea .col-lg-6 {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  #operationsArea .card-body {
+    padding: 0.75rem;
+  }
+
+  #operationsArea .card-title {
+    font-size: 0.9rem;
+  }
+
+  #operationsArea h6 {
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #operationsArea .btn {
+    font-size: 0.8rem;
+    padding: 0.375rem 0.5rem;
+  }
+
+  #operationsArea .form-check-label {
+    font-size: 0.8rem;
+  }
+}
+
+/* 极小屏幕下的优化 */
+@media (max-width: 576px) {
+  #operationsArea .row {
+    flex-wrap: nowrap !important;
+  }
+
+  #operationsArea .col-6,
+  #operationsArea .col-sm-6,
+  #operationsArea .col-md-6,
+  #operationsArea .col-lg-6 {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+  }
+
+  #operationsArea .card-body {
+    padding: 0.5rem;
+  }
+
+  #operationsArea .card-title {
+    font-size: 0.85rem;
+  }
+
+  #operationsArea h6 {
+    font-size: 0.75rem;
+    margin-bottom: 0.4rem;
+  }
+
+  #operationsArea .btn {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.4rem;
+  }
+
+  #operationsArea .btn-group .btn {
+    flex: 1;
+    min-width: 0;
+  }
+
+  #operationsArea .form-check {
+    margin-bottom: 0.4rem;
+  }
+
+  #operationsArea .form-check-label {
+    font-size: 0.75rem;
+  }
+
+  #operationsArea .mb-3 {
+    margin-bottom: 0.75rem !important;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .sidebar,
+  .btn,
+  .modal,
+  .toast,
+  #historyDropdown {
+    display: none !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+  }
+}

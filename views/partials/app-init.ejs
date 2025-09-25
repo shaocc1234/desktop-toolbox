@@ -1,0 +1,96 @@
+<!-- 应用初始化脚本 - 最优先加载，避免闪动 -->
+<script>
+    (function() {
+        'use strict';
+        
+        // ===== 主题初始化 =====
+        function initTheme() {
+            // 立即从localStorage获取主题设置
+            const savedTheme = localStorage.getItem('theme');
+            let theme = 'light'; // 默认主题
+            
+            if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+                theme = savedTheme;
+            } else {
+                // 如果没有保存的主题，检查系统偏好
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    theme = 'dark';
+                }
+            }
+            
+            // 立即应用主题到html元素
+            document.documentElement.setAttribute('data-bs-theme', theme);
+            
+            // 将主题信息存储到全局变量，供后续脚本使用
+            window.__INITIAL_THEME__ = theme;
+            
+            return theme;
+        }
+        
+        // ===== 侧边栏状态初始化 =====
+        function initSidebar() {
+            // 立即从localStorage获取侧边栏状态
+            const savedCollapsed = localStorage.getItem('sidebar-collapsed');
+            const windowWidth = window.innerWidth;
+            const autoCollapseWidth = 1000; // 与sidebar.js中的值保持一致
+            
+            let shouldCollapse = false;
+            let isAutoCollapse = false;
+            
+            // 判断是否应该收起侧边栏
+            if (savedCollapsed === 'true') {
+                // 用户手动设置为收起状态
+                shouldCollapse = true;
+                isAutoCollapse = false;
+            } else if (savedCollapsed === 'false') {
+                // 用户手动设置为展开状态
+                shouldCollapse = false;
+                isAutoCollapse = false;
+            } else {
+                // 没有保存的状态，根据窗口大小决定
+                if (windowWidth < autoCollapseWidth) {
+                    shouldCollapse = true;
+                    isAutoCollapse = true;
+                }
+            }
+            
+            // 立即应用侧边栏状态到DOM
+            if (shouldCollapse) {
+                document.documentElement.classList.add('sidebar-collapsed');
+                if (isAutoCollapse) {
+                    document.documentElement.classList.add('sidebar-auto-collapsed');
+                }
+            } else {
+                document.documentElement.classList.remove('sidebar-collapsed', 'sidebar-auto-collapsed');
+            }
+            
+            // 将状态信息存储到全局变量，供后续脚本使用
+            window.__INITIAL_SIDEBAR_STATE__ = {
+                collapsed: shouldCollapse,
+                autoCollapsed: isAutoCollapse,
+                windowWidth: windowWidth
+            };
+            
+            return { collapsed: shouldCollapse, autoCollapsed: isAutoCollapse };
+        }
+        
+        // ===== 执行初始化 =====
+        const theme = initTheme();
+        const sidebarState = initSidebar();
+        
+        // 标记初始化完成
+        window.__THEME_INITIALIZED__ = true;
+        window.__SIDEBAR_INITIALIZED__ = true;
+        window.__APP_INITIALIZED__ = true;
+        
+        // 调试信息
+        if (window.console && window.console.debug) {
+            console.debug('App initialized:', {
+                theme: theme,
+                sidebarCollapsed: sidebarState.collapsed,
+                sidebarAutoCollapsed: sidebarState.autoCollapsed,
+                windowWidth: window.innerWidth
+            });
+        }
+    })();
+</script>

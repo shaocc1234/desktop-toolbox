@@ -1,0 +1,117 @@
+<!-- 侧边栏头部 -->
+<div class="sidebar-header">
+    <div class="sidebar-brand d-flex align-items-center">
+        <i class="bi bi-tools me-2"></i>
+        <span class="sidebar-brand-text">工作工具集</span>
+    </div>
+    <!-- 侧边栏切换按钮 -->
+    <button class="sidebar-toggle" id="sidebarToggle" title="收起/展开侧边栏">
+        <i class="bi bi-chevron-left"></i>
+    </button>
+</div>
+
+<!-- 导航菜单 -->
+<nav class="sidebar-nav flex-grow-1">
+    <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="/" id="nav-home">
+                <i class="bi bi-house-door me-2"></i>
+                <span class="nav-link-text">首页</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="/upload" id="nav-upload">
+                <i class="bi bi-cloud-upload me-2"></i>
+                <span class="nav-link-text">上传图片</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="/gallery" id="nav-gallery">
+                <i class="bi bi-images me-2"></i>
+                <span class="nav-link-text">图库管理</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="/process" id="nav-process">
+                <i class="bi bi-gear me-2"></i>
+                <span class="nav-link-text">图片处理</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="/folder" id="nav-folder">
+                <i class="bi bi-folder-fill me-2"></i>
+                <span class="nav-link-text">文件夹管理</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="/aiorganizer" id="nav-aiorganizer">
+                <i class="bi bi-robot me-2"></i>
+                <span class="nav-link-text">AI文件整理</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="/rename" id="nav-aiorganizer">
+                <i class="bi bi-cursor-text me-2"></i>
+                <span class="nav-link-text">AI重命名</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="/api" target="_blank">
+                <i class="bi bi-code-square me-2"></i>
+                <span class="nav-link-text">API文档</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<!-- 侧边栏底部 -->
+<div class="sidebar-footer mt-auto">
+    <!-- 设置按钮 -->
+    <div class="settings-button d-flex align-items-center justify-content-center">
+        <button class="btn btn-outline-primary w-100 btn-sm mb-2" id="settingsBtn" title="全局设置">
+            <i class="bi bi-gear-fill me-2"></i>
+            <span class="settings-button-text">全局设置</span>
+        </button>
+    </div>
+
+    <!-- 主题切换按钮 -->
+    <div class="theme-switch d-flex align-items-center justify-content-center">
+        <button class="btn btn-secondary w-100 btn-sm mb-2" id="themeToggle" title="切换主题">
+            <i class="bi bi-moon-fill me-2"></i>
+            <span class="theme-switch-text">切换主题</span>
+        </button>
+    </div>
+
+    <!-- 版本信息 -->
+    <div class="text-center">
+        <small class="text-muted" style="font-size: 11px">
+            版本 2.0.0<br />
+            © 2025
+        </small>
+    </div>
+</div>
+
+<script>
+    // 设置当前页面的导航高亮
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll(".nav-link");
+
+        navLinks.forEach((link) => {
+            link.classList.remove("active");
+            const href = link.getAttribute("href");
+
+            if (
+                currentPath === href ||
+                (currentPath.startsWith("/upload") && href === "/upload") ||
+                (currentPath.startsWith("/gallery") && href === "/gallery") ||
+                (currentPath.startsWith("/process") && href === "/process") ||
+                (currentPath.startsWith("/aiorganizer") && href === "/aiorganizer") ||
+                (currentPath.startsWith("/rename") && href === "/rename") ||
+                (currentPath.startsWith("/folder") && href === "/folder")
+            ) {
+                link.classList.add("active");
+            }
+        });
+    });
+</script>

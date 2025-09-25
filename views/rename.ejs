@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ai 重命名 - 工具集</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link href="/css/custom.css" rel="stylesheet">
+    <style>
+        /* 拖拽上传区域样式 */
+        .upload-area {
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .upload-area:hover, .upload-area.drag-over {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        .file-item {
+            transition: all 0.2s ease;
+        }
+        .file-item:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        [data-bs-theme="dark"] .file-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* 预览区域样式 */
+        .preview-item {
+            transition: all 0.2s ease;
+        }
+        .preview-item:hover {
+            background-color: rgba(0, 0, 0, 0.02) !important;
+        }
+        .preview-item:last-child {
+            border-bottom: none !important;
+        }
+        [data-bs-theme="dark"] .preview-item:hover {
+            background-color: rgba(255, 255, 255, 0.02) !important;
+        }
+
+        /* 左右分栏布局优化 */
+        .row.h-100 {
+            min-height: 600px;
+        }
+        .col-lg-4.border-end {
+            border-color: #dee2e6 !important;
+        }
+        [data-bs-theme="dark"] .col-lg-4.border-end {
+            border-color: #495057 !important;
+        }
+
+        /* 滚动条美化 */
+        #previewContent::-webkit-scrollbar,
+        #fileList::-webkit-scrollbar,
+        #resultContent::-webkit-scrollbar {
+            width: 6px;
+        }
+        #previewContent::-webkit-scrollbar-track,
+        #fileList::-webkit-scrollbar-track,
+        #resultContent::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        #previewContent::-webkit-scrollbar-thumb,
+        #fileList::-webkit-scrollbar-thumb,
+        #resultContent::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+        #previewContent::-webkit-scrollbar-thumb:hover,
+        #fileList::-webkit-scrollbar-thumb:hover,
+        #resultContent::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        [data-bs-theme="dark"] #previewContent::-webkit-scrollbar-track,
+        [data-bs-theme="dark"] #fileList::-webkit-scrollbar-track,
+        [data-bs-theme="dark"] #resultContent::-webkit-scrollbar-track {
+            background: #343a40;
+        }
+        [data-bs-theme="dark"] #previewContent::-webkit-scrollbar-thumb,
+        [data-bs-theme="dark"] #fileList::-webkit-scrollbar-thumb,
+        [data-bs-theme="dark"] #resultContent::-webkit-scrollbar-thumb {
+            background: #6c757d;
+        }
+
+        /* 文件处理状态样式 */
+        .file-process-item {
+            transition: all 0.3s ease;
+        }
+
+        .file-process-item.processing {
+            background-color: rgba(255, 193, 7, 0.1);
+            border-left: 3px solid #ffc107;
+        }
+
+
+        .file-process-item.error {
+            background-color: rgba(220, 53, 69, 0.1);
+            border-left: 3px solid #dc3545;
+        }
+
+        /* 深色模式适配 */
+        [data-bs-theme="dark"] .file-process-item.processing {
+            background-color: rgba(255, 193, 7, 0.15);
+        }
+
+       
+
+        [data-bs-theme="dark"] .file-process-item.error {
+            background-color: rgba(220, 53, 69, 0.15);
+        }
+
+        /* 建议名称样式 - 深色模式适配 */
+        .suggested-name {
+            animation: fadeInUp 0.5s ease;
+            background-color: rgba(13, 110, 253, 0.1) !important;
+            border: 1px solid rgba(13, 110, 253, 0.2);
+        }
+
+        [data-bs-theme="dark"] .suggested-name {
+            background-color: rgba(13, 110, 253, 0.15) !important;
+            border: 1px solid rgba(13, 110, 253, 0.3);
+            color: #e9ecef;
+        }
+
+        [data-bs-theme="dark"] .suggested-name .text-primary {
+            color: #6ea8fe !important;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 加载动画 */
+        .spinner-border-sm {
+            animation: spinner-border 0.75s linear infinite;
+        }
+
+        @keyframes spinner-border {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+
+        .file-process-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 确保文件列表内容不被右侧配置栏遮挡 */
+        .file-process-item {
+            padding-right: 15px;
+        }
+
+        /* 建议名称区域优化 */
+        .suggested-name {
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* 统计区域样式优化 */
+        #statsFooter {
+            margin-top: auto;
+        }
+
+        /* 多AI配置样式 */
+        .ai-config-section {
+            transition: all 0.3s ease;
+        }
+
+        .model-priority-list {
+            min-height: 200px;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+        }
+
+        /* 紧凑列表样式 */
+        .model-priority-compact-list {
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            background-color: #f8f9fa;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* 深色模式适配 - 紧凑列表 */
+        [data-bs-theme="dark"] .model-priority-compact-list {
+            border-color: #495057;
+            background-color: #343a40;
+        }
+
+        /* 紧凑列表滚动条样式 */
+        .model-priority-compact-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .model-priority-compact-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .model-priority-compact-list::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .model-priority-compact-list::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* 深色模式滚动条 */
+        [data-bs-theme="dark"] .model-priority-compact-list::-webkit-scrollbar-track {
+            background: #495057;
+        }
+
+        [data-bs-theme="dark"] .model-priority-compact-list::-webkit-scrollbar-thumb {
+            background: #6c757d;
+        }
+
+        [data-bs-theme="dark"] .model-priority-compact-list::-webkit-scrollbar-thumb:hover {
+            background: #adb5bd;
+        }
+
+        .model-priority-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            cursor: move;
+            transition: all 0.2s ease;
+        }
+
+        /* 紧凑列表项样式 */
+        .model-priority-compact-item {
+            background: white;
+            border-bottom: 1px solid #dee2e6;
+            padding: 0.5rem 0.75rem;
+            cursor: move;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        /* 移除所有可能的伪元素图标 */
+        .model-priority-compact-item::before,
+        .model-priority-compact-item::after,
+        .model-priority-item::before,
+        .model-priority-item::after {
+            display: none !important;
+            content: none !important;
+        }
+
+        /* 深色模式适配 - 紧凑列表项 */
+        [data-bs-theme="dark"] .model-priority-compact-item {
+            background: #495057;
+            border-bottom-color: #6c757d;
+            color: #e9ecef;
+        }
+
+        .model-priority-compact-item:last-child {
+            border-bottom: none;
+        }
+
+        .model-priority-compact-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* 深色模式悬停效果 */
+        [data-bs-theme="dark"] .model-priority-compact-item:hover {
+            background-color: #6c757d;
+        }
+
+        .model-priority-compact-item.dragging {
+            opacity: 0.5;
+            background-color: #e9ecef;
+        }
+
+        /* 深色模式拖拽效果 */
+        [data-bs-theme="dark"] .model-priority-compact-item.dragging {
+            background-color: #6c757d;
+        }
+
+        .model-priority-item:hover {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
+
+        /* 深色模式悬停阴影 */
+        [data-bs-theme="dark"] .model-priority-item:hover {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .model-priority-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .model-priority-item.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+        }
+
+        .provider-name {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        /* 深色模式文本颜色 */
+        [data-bs-theme="dark"] .provider-name {
+            color: #e9ecef;
+        }
+
+        .model-name {
+            color: #6c757d;
+            font-size: 0.875rem;
+        }
+
+        [data-bs-theme="dark"] .model-name {
+            color: #adb5bd;
+        }
+
+        /* 确保标识在深色模式下可见 */
+        [data-bs-theme="dark"] .badge {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 拖拽手柄在深色模式下的颜色 */
+        [data-bs-theme="dark"] .bi-grip-vertical {
+            color: #adb5bd !important;
+        }
+
+        /* 复选框在深色模式下的样式 */
+        [data-bs-theme="dark"] .form-check-input {
+            background-color: #495057;
+            border-color: #6c757d;
+        }
+
+        [data-bs-theme="dark"] .form-check-input:checked {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+        .btn-check:checked + .btn-outline-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
+        }
+
+        .btn-check:checked + .btn-outline-success {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: white;
+        }
+
+        .toggle-key {
+            cursor: pointer;
+        }
+
+        .api-key-status {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+        }
+
+        .api-key-status.valid {
+            background-color: #28a745;
+        }
+
+        .api-key-status.invalid {
+            background-color: #dc3545;
+        }
+
+        .priority-badge {
+            background-color: #007bff;
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            margin-left: auto;
+            border-top: 1px solid rgba(0, 0, 0, 0.125);
+        }
+
+        [data-bs-theme="dark"] #statsFooter {
+            border-top-color: rgba(255, 255, 255, 0.125);
+            background-color: rgba(255, 255, 255, 0.05) !important;
+        }
+
+        /* 未配置模型样式 */
+        .unconfigured-model {
+            opacity: 0.7;
+            border-left: 3px solid #6c757d !important;
+        }
+
+        .unconfigured-model .model-name {
+            color: #6c757d !important;
+        }
+
+        .unconfigured-model .provider-name {
+            color: #6c757d !important;
+        }
+
+        /* 深色主题下的未配置模型 */
+        [data-bs-theme="dark"] .unconfigured-model {
+            border-left-color: #495057 !important;
+        }
+
+        [data-bs-theme="dark"] .unconfigured-model .model-name {
+            color: #adb5bd !important;
+        }
+
+        [data-bs-theme="dark"] .unconfigured-model .provider-name {
+            color: #adb5bd !important;
+        }
+
+        /* 模型优先级分隔线 */
+        .model-priority-separator {
+            border-top: 1px dashed #dee2e6;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .model-priority-separator::before {
+            content: "未配置模型";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bs-body-bg);
+            padding: 0 10px;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        [data-bs-theme="dark"] .model-priority-separator {
+            border-top-color: #495057;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- 左侧侧边栏 -->
+    <div class="sidebar bg-light border-end" id="sidebar">
+        <%- include('partials/sidebar') %>
+    </div>
+
+    <!-- 右侧主内容区 -->
+    <div class="main-content" id="main-content">
+        <main class="p-4">
+            <div class="container-fluid">
+                <!-- 页面标题 -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h2>
+                            <i class="bi bi-magic text-primary me-2"></i>
+                            智能文件重命名
+                        </h2>
+                        <p class="text-muted">基于AI的智能文件重命名工具 - 支持文档内容分析和语义理解</p>
+                    </div>
+                </div>
+
+                <!-- 主要内容区域 - 左右分栏布局 -->
+                <div class="row">
+                    <!-- 左侧：配置栏 -->
+                    <div class="col-4 mb-4">
+                        <!-- 第一步：文件夹选择区域 -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="bi bi-folder2-open me-2"></i>
+                                    第一步：选择文件夹
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <!-- 拖拽文件夹区域 -->
+                                <div class="upload-area text-center p-3 mb-3" id="dropZone">
+                                    <i class="bi bi-folder-plus display-6 text-primary mb-2" id="dropIcon"></i>
+                                    <h6 id="dropTitle">拖拽文件或文件夹到此区域</h6>
+                                    <p class="text-muted small mb-0" id="dropDescription">
+                                        支持单个文件、多个文件或整个文件夹<br>
+                                        自动扫描文件夹内容，获取完整路径用于重命名
+                                    </p>
+
+                                    <!-- 拖拽进度指示器 -->
+                                    <div class="mt-2" id="dropProgress" style="display: none;">
+                                        <div class="progress mb-2" style="height: 4px;">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                 role="progressbar" style="width: 0%" id="dropProgressBar"></div>
+                                        </div>
+                                        <small class="text-muted" id="dropProgressText">正在处理...</small>
+                                    </div>
+                                </div>
+
+                                <!-- 扫描选项 -->
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="includeSubfolders" checked>
+                                        <label class="form-check-label" for="includeSubfolders">
+                                            <i class="bi bi-folder-symlink me-1"></i>
+                                            包含子文件夹
+                                        </label>
+                                        <small class="form-text text-muted d-block">
+                                            勾选后将递归扫描所有子文件夹中的文件
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <!-- 文件夹选择按钮 -->
+                                <div class="mb-3">
+                                    <button class="btn btn-primary w-100" id="selectFolder">
+                                        <i class="bi bi-folder2-open me-2"></i>选择文件夹
+                                    </button>
+                                </div>
+
+                                <!-- 当前选择显示 -->
+                                <div class="small text-muted" id="folderInfo">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    请选择包含需要重命名文件的文件夹
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第二步：AI配置区域 -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="bi bi-robot me-2"></i>
+                                    第二步：AI配置
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <!-- 多AI服务商配置 -->
+                                <div class="mb-4">
+                                    <!-- 配置模式选择 -->
+                                    <div class="row mb-3">
+                                        <div class="col-12">
+                                            <label class="form-label">AI配置模式</label>
+                                            <div class="btn-group w-100" role="group">
+                                                <input type="radio" class="btn-check" name="aiConfigMode" id="singleAI" value="single" checked>
+                                                <label class="btn btn-outline-primary" for="singleAI">
+                                                    <i class="bi bi-cpu me-2"></i>单一服务商
+                                                </label>
+                                                <input type="radio" class="btn-check" name="aiConfigMode" id="multiAI" value="multi">
+                                                <label class="btn btn-outline-success" for="multiAI">
+                                                    <i class="bi bi-diagram-3 me-2"></i>多服务商智能重试
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 单一服务商配置 -->
+                                    <div id="singleAIConfig" class="ai-config-section">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="alert alert-info">
+                                                    <i class="bi bi-info-circle me-2"></i>
+                                                    使用全局设置中配置的API密钥。如需修改，请前往
+                                                    <a href="/settings" class="alert-link">全局设置</a> 页面。
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="aiModel" class="form-label">
+                                                    AI模型策略
+                                                    <button type="button" class="btn btn-sm btn-outline-info ms-2" id="modelCompareBtn">
+                                                        <i class="bi bi-info-circle"></i> 模型对比
+                                                    </button>
+                                                </label>
+                                                <select class="form-select" id="aiModel">
+                                                    <optgroup label="💬 对话模型 (推荐)">
+                                                        <option value="chat:Qwen/Qwen3-Next-80B-A3B-Instruct" selected>⭐ Qwen3-Next-80B (最快)</option>
+                                                        <option value="chat:Qwen/Qwen2.5-72B-Instruct-128K">⭐ Qwen2.5-72B (推荐)</option>
+                                                        <option value="chat:Pro/deepseek-ai/DeepSeek-V3">DeepSeek-V3 (高性能)</option>
+                                                        <option value="chat:Pro/deepseek-ai/DeepSeek-R1">DeepSeek-R1 (推理)</option>
+                                                        <option value="chat:Qwen/Qwen3-30B-A3B">Qwen3-30B (快速)</option>
+                                                    </optgroup>
+                                                    <optgroup label="👁️ 视觉模型">
+                                                        <option value="vision:Qwen/Qwen2.5-VL-32B-Instruct">Qwen2.5-VL-32B (图片分析)</option>
+                                                    </optgroup>
+                                                    <optgroup label="🔄 多服务商模型">
+                                                        <option value="chat:doubao-seed-1-6-thinking-250615">豆包1.6 Thinking</option>
+                                                        <option value="vision:doubao-seed-1-6-flash-250615">⭐ 豆包1.6 Flash (视觉快速)</option>
+                                                        <option value="chat:deepseek-chat">DeepSeek Chat (官方)</option>
+                                                        <option value="chat:deepseek-reasoner">DeepSeek R1 (官方推理)</option>
+                                                    </optgroup>
+                                                </select>
+                                                <div class="form-text">
+                                                    <i class="bi bi-info-circle me-1"></i>
+                                                    ⭐ 标记为推荐模型，基于测试性能优化选择
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 多服务商配置 -->
+                                    <div id="multiAIConfig" class="ai-config-section" style="display: none;">
+                                        <!-- API密钥配置提示 -->
+                                        <div class="alert alert-info mb-3">
+                                            <i class="bi bi-info-circle me-2"></i>
+                                            使用全局设置中配置的API密钥。如需修改，请前往
+                                            <a href="/settings" class="alert-link">全局设置</a> 页面。
+                                        </div>
+
+                                        <!-- 模型优先级配置 -->
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">
+                                                    <i class="bi bi-list-ol me-2"></i>模型优先级配置
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <!-- 对话模型优先级 -->
+                                                <div class="mb-4">
+                                                    <label class="form-label fw-bold">💬 对话模型优先级</label>
+                                                    <div id="chatModelPriorities" class="model-priority-compact-list">
+                                                        <!-- 动态生成 -->
+                                                    </div>
+                                                </div>
+
+                                                <!-- 视觉模型优先级 -->
+                                                <div class="mb-3">
+                                                    <label class="form-label fw-bold">👁️ 视觉模型优先级</label>
+                                                    <div id="visionModelPriorities" class="model-priority-compact-list">
+                                                        <!-- 动态生成 -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-text">
+                                                    <i class="bi bi-info-circle me-1"></i>
+                                                    拖拽调整优先级，遇到API限制时自动切换到下一个模型
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第三步：重命名配置区域 -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="bi bi-gear me-2"></i>
+                                    第三步：重命名配置
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <!-- 命名模板选择 -->
+                                <div class="mb-3">
+                                    <label for="namingTemplate" class="form-label">命名模板</label>
+                                    <select class="form-select" id="namingTemplate">
+                                        <option value="semantic">语义模板 (基于内容生成)</option>
+                                        <option value="date_content">日期+内容模板</option>
+                                        <option value="category_name">分类+名称模板</option>
+                                        <option value="custom">自定义模板</option>
+                                    </select>
+                                </div>
+
+                                <!-- 自定义提示词 -->
+                                <div class="mb-3">
+                                    <label for="customPrompt" class="form-label">自定义提示词 (可选)</label>
+                                    <textarea class="form-control" id="customPrompt" rows="3"
+                                              placeholder="例如：根据文档内容生成专业的文件名，突出主题和类型"></textarea>
+                                    <div class="form-text">AI将根据此提示词和文件内容生成更符合需求的文件名</div>
+                                </div>
+
+                                <!-- 高级选项 -->
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="preserveExtension" checked>
+                                        <label class="form-check-label" for="preserveExtension">
+                                            保留文件扩展名
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="removeSpecialChars" checked>
+                                        <label class="form-check-label" for="removeSpecialChars">
+                                            移除特殊字符
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="useOCR" checked>
+                                        <label class="form-check-label" for="useOCR">
+                                            <i class="bi bi-eye me-1"></i>图片OCR文字识别
+                                        </label>
+                                        <div class="form-text ms-4">
+                                            <small class="text-muted">
+                                                <i class="bi bi-info-circle me-1"></i>
+                                                勾选后图片文件将使用OCR + 视觉模型组合方案，提高识别准确度
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="enableConcurrency" checked>
+                                        <label class="form-check-label" for="enableConcurrency">
+                                            <i class="bi bi-lightning me-1"></i>启用并发处理
+                                        </label>
+                                        <div class="form-text ms-4">
+                                            <small class="text-muted">
+                                                <i class="bi bi-speedometer2 me-1"></i>
+                                                同时处理多个文件，显著提升处理速度
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="skipProcessed" checked>
+                                        <label class="form-check-label" for="skipProcessed">
+                                            <i class="bi bi-skip-forward me-1"></i>跳过已智能命名过的文件
+                                        </label>
+                                        <div class="form-text ms-4">
+                                            <small class="text-muted">
+                                                <i class="bi bi-database me-1"></i>
+                                                系统会记录已处理的文件，避免重复处理提高效率
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="smartKeepOriginal">
+                                        <label class="form-check-label" for="smartKeepOriginal">
+                                            <i class="bi bi-shield-check me-1"></i>智能保留原名
+                                        </label>
+                                        <div class="form-text ms-4">
+                                            <small class="text-muted">
+                                                自动识别已有明确含义的文件名并保持不变<br>
+                                                如：2025年8月26日 纸巾待发货.xlsx → 保持原名
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="openFolderAfter">
+                                        <label class="form-check-label" for="openFolderAfter">
+                                            重命名后打开文件夹
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- 性能配置 -->
+                                <div class="mb-3" id="performanceConfig">
+                                    <label for="concurrencyLevel" class="form-label">
+                                        <i class="bi bi-gear me-1"></i>并发级别
+                                    </label>
+                                    <select class="form-select" id="concurrencyLevel">
+                                        <option value="2">保守 (2个并发)</option>
+                                        <option value="3" selected>平衡 (3个并发)</option>
+                                        <option value="5">激进 (5个并发)</option>
+                                        <option value="8">极速 (8个并发)</option>
+                                    </select>
+                                    <div class="form-text">
+                                        <i class="bi bi-info-circle me-1"></i>
+                                        并发数越高处理越快，但会消耗更多系统资源和API配额
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第四步：执行重命名 -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="bi bi-play-circle me-2"></i>
+                                    第四步：执行重命名
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <button class="btn btn-success w-100 mb-2" id="startRenameBtn" disabled>
+                                    <i class="bi bi-magic me-2"></i>开始智能重命名
+                                </button>
+                                <button class="btn btn-outline-secondary w-100" id="clearBtn">
+                                    <i class="bi bi-arrow-clockwise me-2"></i>重新开始
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右侧：文件处理区域 -->
+                    <div class="col-8">
+                        <div class="h-100 d-flex flex-column">
+                            <!-- 统一的文件处理列表 -->
+                            <div class="card h-100 d-flex flex-column" id="fileProcessCard">
+                                <div class="card-header d-flex justify-content-between align-items-center flex-shrink-0">
+                                    <h6 class="mb-0">
+                                        <i class="bi bi-list-check me-2 text-primary"></i>
+                                        文件处理列表
+                                        <span class="badge bg-secondary ms-2" id="fileCount">0</span>
+                                    </h6>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <!-- 文件类型过滤器 -->
+                                        <div class="btn-group btn-group-sm" role="group" id="fileTypeFilters">
+                                            <button class="btn btn-outline-secondary active" data-type="all">
+                                                <i class="bi bi-files"></i> 全部 (0)
+                                            </button>
+                                        </div>
+
+                                        <!-- 操作按钮 -->
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-sm btn-success" id="applyAllBtn" disabled>
+                                                <i class="bi bi-check-all me-1"></i>应用全部
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-primary" id="regenerateBtn" disabled>
+                                                <i class="bi bi-arrow-clockwise me-1"></i>重新生成
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 进度条 -->
+                                <div id="progressContainer" class="px-3 pt-3 flex-shrink-0" style="display: none;">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <small class="text-muted" id="progressText">准备处理...</small>
+                                        <small class="text-muted" id="progressPercent">0%</small>
+                                    </div>
+                                    <div class="progress mb-3" style="height: 6px;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                             id="progressBar" role="progressbar" style="width: 0%"></div>
+                                    </div>
+                                </div>
+
+                                <!-- 文件列表 - 使用flex-grow-1占满剩余空间 -->
+                                <div class="flex-grow-1 d-flex flex-column position-relative" style="min-height: 0;">
+                                    <div id="fileList" class="flex-grow-1 overflow-auto pe-2">
+                                        <div class="text-center text-muted p-5" id="emptyState">
+                                            <i class="bi bi-folder-plus display-4 mb-3"></i>
+                                            <h5>选择文件夹开始处理</h5>
+                                            <p class="mb-0">点击左侧"选择文件夹"按钮，然后点击"开始智能重命名"</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 底部统计信息 - 固定在底部 -->
+                                <div class="card-footer bg-light flex-shrink-0" id="statsFooter" style="display: none;">
+                                    <div class="row text-center">
+                                        <div class="col-3">
+                                            <div class="text-success fw-bold" id="successCount">0</div>
+                                            <small class="text-muted">成功</small>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="text-danger fw-bold" id="failureCount">0</div>
+                                            <small class="text-muted">失败</small>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="text-warning fw-bold" id="pendingCount">0</div>
+                                            <small class="text-muted">待处理</small>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="text-info fw-bold" id="totalCount">0</div>
+                                            <small class="text-muted">总计</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- 模型对比模态框 -->
+<div class="modal fade" id="modelCompareModal" tabindex="-1" aria-labelledby="modelCompareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modelCompareModalLabel">
+                    <i class="bi bi-cpu me-2"></i>AI模型对比与建议
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 推荐模型 -->
+                <div class="alert alert-success" role="alert">
+                    <h6 class="alert-heading">
+                        <i class="bi bi-star-fill me-2"></i>推荐模型
+                    </h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>对话模型：</strong>Qwen3-Next-80B-A3B-Instruct
+                            <br><small class="text-muted">⚡ 最快响应 (2.7秒) | 🎯 高质量输出 | 💰 中等成本</small>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>视觉模型：</strong>豆包1.6 Flash
+                            <br><small class="text-muted">⚡ 极速响应 (2.9秒) | 📷 图片理解 | 💰 低成本</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 模型对比表格 -->
+                <div class="row">
+                    <div class="col-12">
+                        <h6><i class="bi bi-chat-dots me-2"></i>对话模型对比</h6>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>模型名称</th>
+                                        <th>服务商</th>
+                                        <th>响应速度</th>
+                                        <th>输出质量</th>
+                                        <th>成本</th>
+                                        <th>适用场景</th>
+                                        <th>状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-success">
+                                        <td><strong>⭐ Qwen3-Next-80B-A3B</strong></td>
+                                        <td>硅基流动</td>
+                                        <td><span class="badge bg-success">极快 (2.7s)</span></td>
+                                        <td><span class="badge bg-success">高</span></td>
+                                        <td><span class="badge bg-warning">中等</span></td>
+                                        <td>通用任务，快速响应</td>
+                                        <td><span class="badge bg-success">✅ 可用</span></td>
+                                    </tr>
+                                    <tr class="table-info">
+                                        <td><strong>⭐ Qwen2.5-72B</strong></td>
+                                        <td>硅基流动</td>
+                                        <td><span class="badge bg-warning">中等 (10s)</span></td>
+                                        <td><span class="badge bg-success">高</span></td>
+                                        <td><span class="badge bg-warning">中等</span></td>
+                                        <td>平衡性能，推荐使用</td>
+                                        <td><span class="badge bg-success">✅ 可用</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>DeepSeek V3</td>
+                                        <td>硅基流动</td>
+                                        <td><span class="badge bg-warning">中等 (7s)</span></td>
+                                        <td><span class="badge bg-success">高</span></td>
+                                        <td><span class="badge bg-warning">中等</span></td>
+                                        <td>复杂推理任务</td>
+                                        <td><span class="badge bg-success">✅ 可用</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>DeepSeek R1</td>
+                                        <td>硅基流动</td>
+                                        <td><span class="badge bg-danger">慢 (23s)</span></td>
+                                        <td><span class="badge bg-primary">极高</span></td>
+                                        <td><span class="badge bg-danger">高</span></td>
+                                        <td>深度推理分析</td>
+                                        <td><span class="badge bg-success">✅ 可用</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>豆包1.6 Thinking</td>
+                                        <td>豆包</td>
+                                        <td><span class="badge bg-danger">慢 (18s)</span></td>
+                                        <td><span class="badge bg-success">高</span></td>
+                                        <td><span class="badge bg-warning">中等</span></td>
+                                        <td>思维分析任务</td>
+                                        <td><span class="badge bg-success">✅ 可用</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>DeepSeek Chat</td>
+                                        <td>DeepSeek官方</td>
+                                        <td><span class="badge bg-warning">中等 (13s)</span></td>
+                                        <td><span class="badge bg-success">高</span></td>
+                                        <td><span class="badge bg-success">低</span></td>
+                                        <td>性价比选择</td>
+                                        <td><span class="badge bg-success">✅ 可用</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h6><i class="bi bi-eye me-2"></i>视觉模型对比</h6>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>模型名称</th>
+                                        <th>服务商</th>
+                                        <th>响应速度</th>
+                                        <th>识别质量</th>
+                                        <th>成本</th>
+                                        <th>适用场景</th>
+                                        <th>状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-success">
+                                        <td><strong>⭐ 豆包1.6 Flash</strong></td>
+                                        <td>豆包</td>
+                                        <td><span class="badge bg-success">极快 (2.9s)</span></td>
+                                        <td><span class="badge bg-warning">中等</span></td>
+                                        <td><span class="badge bg-success">低</span></td>
+                                        <td>快速图片处理</td>
+                                        <td><span class="badge bg-success">✅ 可用</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Qwen2.5-VL-32B</td>
+                                        <td>硅基流动</td>
+                                        <td><span class="badge bg-warning">中等 (11s)</span></td>
+                                        <td><span class="badge bg-success">高</span></td>
+                                        <td><span class="badge bg-warning">中等</span></td>
+                                        <td>详细图片分析</td>
+                                        <td><span class="badge bg-success">✅ 可用</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 使用建议 -->
+                <div class="alert alert-info mt-4" role="alert">
+                    <h6 class="alert-heading">
+                        <i class="bi bi-lightbulb me-2"></i>使用建议
+                    </h6>
+                    <ul class="mb-0">
+                        <li><strong>日常使用：</strong>推荐 Qwen3-Next-80B-A3B-Instruct，速度快质量高</li>
+                        <li><strong>图片处理：</strong>推荐 豆包1.6 Flash，响应极快成本低</li>
+                        <li><strong>复杂推理：</strong>选择 DeepSeek R1，质量最高但速度较慢</li>
+                        <li><strong>成本优先：</strong>选择 DeepSeek Chat 官方版，性价比最高</li>
+                        <li><strong>多服务商模式：</strong>可配置多个模型自动切换，提高成功率</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="applyRecommendedModel">应用推荐配置</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 加载提示 -->
+<div class="position-fixed top-50 start-50 translate-middle" id="loadingSpinner" style="display: none; z-index: 9999;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">加载中...</span>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- 侧边栏管理 -->
+<script src="/js/sidebar.js"></script>
+<!-- 主题管理 -->
+<script src="/js/theme.js"></script>
+<!-- 通用工具 -->
+<script src="/js/utils.js"></script>
+<!-- Ai 重命名页面脚本 -->
+<script src="/js/rename.js"></script>
+</body>
+</html>

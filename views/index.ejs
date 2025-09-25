@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 图库上传工具</title>
+
+    <%- include('partials/app-init') %>
+
+    <!-- Bootstrap CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link href="/css/custom.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 左侧侧边栏 -->
+        <div class="sidebar bg-light border-end" id="sidebar">
+            <%- include('partials/sidebar') %>
+        </div>
+
+        <!-- 右侧主内容区 -->
+        <div class="main-content" id="main-content">
+            <main class="p-3">
+                    <div class="container-fluid">
+                        <!-- 欢迎横幅 - 紧凑版 -->
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body text-center py-3">
+                                        <h4 class="fw-bold mb-2">
+                                            <i class="bi bi-tools me-2"></i>工作工具集
+                                        </h4>
+                                        <p class="mb-2 text-muted">一站式文件管理和图片处理解决方案</p>
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-10">
+                                                <small class="text-muted">
+                                                    <i class="bi bi-check-circle me-1"></i>图片上传与压缩
+                                                    <i class="bi bi-check-circle me-1 ms-2"></i>智能文件分类
+                                                    <i class="bi bi-check-circle me-1 ms-2"></i>批量图片处理
+                                                    <i class="bi bi-check-circle me-1 ms-2"></i>文件夹管理
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 快速开始指南 - 紧凑版 -->
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">
+                                            <i class="bi bi-lightbulb me-2"></i>快速开始指南
+                                        </h6>
+                                    </div>
+                                    <div class="card-body py-2">
+                                        <div class="row">
+                                            <div class="col-md-3 text-center mb-2">
+                                                <div class="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-1" style="width: 24px; height: 24px; font-size: 12px;">1</div>
+                                                <div class="small">选择功能</div>
+                                                <div class="text-muted" style="font-size: 11px;">选择需要的工具</div>
+                                            </div>
+                                            <div class="col-md-3 text-center mb-2">
+                                                <div class="step-number text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-1" style="width: 24px; height: 24px; font-size: 12px; background-color: var(--success-color);">2</div>
+                                                <div class="small">设置参数</div>
+                                                <div class="text-muted" style="font-size: 11px;">配置相关选项</div>
+                                            </div>
+                                            <div class="col-md-3 text-center mb-2">
+                                                <div class="step-number text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-1" style="width: 24px; height: 24px; font-size: 12px; background-color: var(--warning-color);">3</div>
+                                                <div class="small">预览结果</div>
+                                                <div class="text-muted" style="font-size: 11px;">确认操作结果</div>
+                                            </div>
+                                            <div class="col-md-3 text-center mb-2">
+                                                <div class="step-number text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-1" style="width: 24px; height: 24px; font-size: 12px; background-color: var(--danger-color);">4</div>
+                                                <div class="small">执行操作</div>
+                                                <div class="text-muted" style="font-size: 11px;">完成操作</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 核心功能模块 - 紧凑版 -->
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <h5 class="mb-2">
+                                    <i class="bi bi-gear-fill me-2"></i>核心功能模块
+                                </h5>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <!-- Upload 上传功能 -->
+                            <div class="col-lg-6">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">
+                                            <i class="bi bi-cloud-upload me-2"></i>Upload 上传功能
+                                        </h6>
+                                    </div>
+                                    <div class="card-body py-2">
+                                        <div class="mb-2">
+                                            <small class="text-muted"><strong>适用场景：</strong>需要上传图片到图床或进行图片压缩处理</small>
+                                        </div>
+                                        <ul class="list-unstyled mb-2" style="font-size: 12px;">
+                                            <li class="mb-1">
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                <strong>图床上传：</strong>支持PicGo、Catbox等服务
+                                            </li>
+                                            <li class="mb-1">
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                <strong>智能压缩：</strong>自动优化图片大小和质量
+                                            </li>
+                                            <li class="mb-1">
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                <strong>记录管理：</strong>自动保存上传历史和链接
+                                            </li>
+                                        </ul>
+                                        <div class="d-grid">
+                                            <a href="/upload" class="btn btn-primary btn-sm">
+                                                <i class="bi bi-arrow-right me-1"></i>开始上传图片
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Gallery 图库管理 -->
+                            <div class="col-lg-6">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">
+                                            <i class="bi bi-images me-2"></i>Gallery 图库管理
+                                        </h6>
+                                    </div>
+                                    <div class="card-body py-2">
+                                        <div class="mb-2">
+                                            <small class="text-muted"><strong>适用场景：</strong>查看、管理和搜索已上传的图片</small>
+                                        </div>
+                                        <ul class="list-unstyled mb-2" style="font-size: 12px;">
+                                            <li class="mb-1">
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                <strong>图片浏览：</strong>网格视图展示所有图片
+                                            </li>
+                                            <li class="mb-1">
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                <strong>智能搜索：</strong>按名称、标签、日期筛选
+                                            </li>
+                                            <li class="mb-1">
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                <strong>批量管理：</strong>删除、下载、复制链接
+                                            </li>
+                                        </ul>
+                                        <div class="d-grid">
+                                            <a href="/gallery" class="btn btn-secondary btn-sm">
+                                                <i class="bi bi-arrow-right me-1"></i>浏览图库
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Process 图片处理 -->
+                            <div class="col-lg-6">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">
+                                            <i class="bi bi-gear me-2"></i>Process 图片处理
+                                        </h6>
+                                    </div>
+                                    <div class="card-body py-2">
+                                        <div class="mb-2">
+                                            <small class="text-muted"><strong>适用场景：</strong>批量转换图片格式、调整尺寸和质量</small>
+                                        </div>
+                                        <ul class="list-unstyled mb-2" style="font-size: 12px;">
+                                            <li class="mb-1">
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                <strong>格式转换：</strong>JPG、PNG、WebP互转
+                                            </li>
+                                            <li class="mb-1">
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                <strong>批量处理：</strong>一次处理多个图片文件
+                                            </li>
+                                            <li class="mb-1">
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                <strong>质量调整：</strong>压缩比例和尺寸设置
+                                            </li>
+                                        </ul>
+                                        <div class="d-grid">
+                                            <a href="/process" class="btn btn-secondary btn-sm">
+                                                <i class="bi bi-arrow-right me-1"></i>开始处理
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Folder 文件夹管理 -->
+                            <div class="col-lg-6">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">
+                                            <i class="bi bi-folder me-2"></i>Folder 文件夹管理
+                                        </h6>
+                                    </div>
+                                    <div class="card-body py-2">
+                                        <div class="mb-2">
+                                            <small class="text-muted"><strong>适用场景：</strong>整理混乱的文件夹，自动分类和清理</small>
+                                        </div>
+                                        <ul class="list-unstyled mb-2" style="font-size: 12px;">
+                                            <li class="mb-1">
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                <strong>智能分类：</strong>文件和文件夹按规则自动分类
+                                            </li>
+                                            <li class="mb-1">
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                <strong>清理工具：</strong>删除空文件夹和重复文件
+                                            </li>
+                                            <li class="mb-1">
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                <strong>安全预览：</strong>所有操作都可先预览再执行
+                                            </li>
+                                        </ul>
+                                        <div class="d-grid">
+                                            <a href="/folder" class="btn btn-secondary btn-sm">
+                                                <i class="bi bi-arrow-right me-1"></i>开始整理
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 使用统计 -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <i class="bi bi-bar-chart me-2"></i>使用统计
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row text-center" id="statsContainer">
+                                            <div class="col-md-3">
+                                                <div class="stat-item">
+                                                    <h3 class="text-primary mb-1" id="totalImages">-</h3>
+                                                    <p class="text-muted mb-0">总图片数</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="stat-item">
+                                                    <h3 class="text-success mb-1" id="totalSize">-</h3>
+                                                    <p class="text-muted mb-0">总大小</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="stat-item">
+                                                    <h3 class="text-warning mb-1" id="compressedCount">-</h3>
+                                                    <p class="text-muted mb-0">已压缩</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="stat-item">
+                                                    <h3 class="text-info mb-1" id="recentCount">-</h3>
+                                                    <p class="text-muted mb-0">最近7天</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 使用技巧和常见问题 -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h5 class="mb-0">
+                                            <i class="bi bi-lightbulb-fill text-warning me-2"></i>💡 使用技巧
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="accordion accordion-flush" id="tipsAccordion">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tip1">
+                                                        <i class="bi bi-folder me-2"></i>文件夹管理技巧
+                                                    </button>
+                                                </h2>
+                                                <div id="tip1" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                                                    <div class="accordion-body small">
+                                                        <ul class="mb-0">
+                                                            <li>先点击"预览"查看操作结果，确认无误后再执行</li>
+                                                            <li>建议先备份重要文件夹</li>
+                                                            <li>系统会自动跳过年份文件夹（如"2024年"）</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tip2">
+                                                        <i class="bi bi-image me-2"></i>图片处理技巧
+                                                    </button>
+                                                </h2>
+                                                <div id="tip2" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                                                    <div class="accordion-body small">
+                                                        <ul class="mb-0">
+                                                            <li>上传前可以设置压缩质量节省空间</li>
+                                                            <li>支持拖拽上传，可同时选择多个文件</li>
+                                                            <li>处理大量图片时建议分批进行</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header bg-light">
+                                        <h5 class="mb-0">
+                                            <i class="bi bi-question-circle-fill text-info me-2"></i>❓ 常见问题
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="accordion accordion-flush" id="faqAccordion">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                                        <i class="bi bi-exclamation-triangle me-2"></i>操作失败怎么办？
+                                                    </button>
+                                                </h2>
+                                                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                                    <div class="accordion-body small">
+                                                        <p class="mb-2"><strong>解决方案：</strong></p>
+                                                        <ul class="mb-0">
+                                                            <li>检查文件夹路径是否正确</li>
+                                                            <li>确保有足够的磁盘空间</li>
+                                                            <li>检查文件是否被其他程序占用</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                                        <i class="bi bi-shield-check me-2"></i>数据安全吗？
+                                                    </button>
+                                                </h2>
+                                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                                    <div class="accordion-body small">
+                                                        <p class="mb-2"><strong>安全保障：</strong></p>
+                                                        <ul class="mb-0">
+                                                            <li>所有操作都有预览功能</li>
+                                                            <li>系统会自动避免危险操作</li>
+                                                            <li>建议重要文件先备份</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 快速操作 -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <i class="bi bi-lightning me-2"></i>快速操作
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-3">
+                                                <div class="d-grid">
+                                                    <a href="/upload" class="btn btn-outline-primary btn-lg">
+                                                        <i class="bi bi-plus-circle me-2"></i>上传图片
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="d-grid">
+                                                    <a href="/gallery" class="btn btn-outline-success btn-lg">
+                                                        <i class="bi bi-search me-2"></i>浏览图库
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="d-grid">
+                                                    <a href="/process" class="btn btn-outline-warning btn-lg">
+                                                        <i class="bi bi-gear me-2"></i>处理图片
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="d-grid">
+                                                    <a href="/folder" class="btn btn-outline-info btn-lg">
+                                                        <i class="bi bi-folder me-2"></i>整理文件
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+        </div>
+    </div>
+
+    <!-- 图片预览模态框 -->
+    <div class="modal fade" id="imagePreviewModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="previewModalTitle">图片预览</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="previewImage" src="" alt="" class="img-fluid mb-3" style="max-height: 500px;">
+                    <div id="previewInfo" class="text-start">
+                        <!-- 图片信息将在这里显示 -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" id="copyUrlBtn">
+                        <i class="bi bi-clipboard me-1"></i>复制链接
+                    </button>
+                    <button type="button" class="btn btn-outline-success" id="openInNewTab">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>新窗口打开
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast 通知 -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastNotification" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="bi bi-info-circle-fill text-primary me-2"></i>
+                <strong class="me-auto">提示</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                <!-- 消息内容 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- 侧边栏管理 -->
+    <script src="/js/sidebar.js"></script>
+    <!-- 主题管理 -->
+    <script src="/js/theme.js"></script>
+    <!-- 通用工具 -->
+    <script src="/js/utils.js"></script>
+    
+    <script>
+    // 加载统计数据
+    document.addEventListener('DOMContentLoaded', async function() {
+        try {
+            const response = await fetch('/api/stats');
+            const data = await response.json();
+            
+            if (data.success) {
+                const stats = data.data.overview;
+                document.getElementById('totalImages').textContent = stats.totalImages || 0;
+                document.getElementById('totalSize').textContent = formatFileSize(stats.totalSize || 0);
+                document.getElementById('compressedCount').textContent = stats.compressedCount || 0;
+                document.getElementById('recentCount').textContent = data.data.recent.count || 0;
+            }
+        } catch (error) {
+            console.error('加载统计数据失败:', error);
+        }
+    });
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    </script>
+</body>
+</html>
